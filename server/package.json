@@ -1,5 +1,5 @@
 {
-  "name": "backend-twitch",
+  "name": "server",
   "type": "module",
   "version": "1.0.0",
   "description": "",
@@ -9,7 +9,7 @@
     "start": "node index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Simon Villalon",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.27.2",
@@ -21,6 +21,7 @@
     "express-validator": "^6.14.0",
     "jsonwebtoken": "^8.5.1",
     "mariadb": "^3.2.2",
+    "morgan": "^1.10.0",
     "nanoid": "^3.3.4",
     "sequelize": "^6.33.0"
   },

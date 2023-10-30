@@ -1,10 +1,5 @@
 import { Router } from "express";
-import {
-    logout,
-    login,
-    register,
-    verifyToken
-} from "../controllers/auth-controller.js";
+import AuthController from "../controllers/auth-controller.js";
 import { requireToken } from "../middlewares/require-token.js";
 import {
     bodyLoginValidator,
@@ -13,9 +8,9 @@ import {
 
 const router = Router();
 
-router.post("/register", bodyRegisterValidator, register);
-router.post("/login", bodyLoginValidator, login);
+router.post("/register", bodyRegisterValidator, AuthController.register);
+router.post("/login", bodyLoginValidator, AuthController.login);
 router.get("/protected", requireToken,(req, res) => res.json({message: "Protected message"}) );
-router.get("/verify", verifyToken)
-router.get("/logout", logout);
+router.get("/verify", AuthController.verifyToken)
+router.get("/logout", AuthController.logout);
 export default router;

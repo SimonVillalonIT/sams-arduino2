@@ -1,5 +1,5 @@
 import { DataTypes, UUIDV4 } from 'sequelize'
-import db from '../database/connectdb.js';
+import { db } from '../database/connectdb.js';
 import bcrypt from "bcryptjs"
 
 const User = db.define("user", {
@@ -19,10 +19,6 @@ const User = db.define("user", {
         type: DataTypes.STRING,
         allowNull: false
     },
-    created_at: {
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW
-    }
 });
 
 
@@ -40,7 +36,6 @@ User.beforeCreate(async (user) => {
 User.prototype.validatePassword = async function(password) {
     return await bcrypt.compare(password, this.password)
 }
-
 
 export default User
 

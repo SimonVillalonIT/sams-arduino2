@@ -4,11 +4,9 @@ export const validateToken = (token) => {
     try {
         if (!token) throw new Error("No Bearer");
 
-        const result = jwt.verify(token, process.env.JWT_SECRET);
-        console.log(result)
+        jwt.verify(token, process.env.JWT_SECRET);
         return { ok: true, error: null }
     } catch (error) {
-        console.log(error.message);
         return { ok: false, error: tokenVerificationErrors[error.message] }
     }
 }
@@ -24,7 +22,7 @@ export const generateToken = (uid, res) => {
             sameSite: "none",
         }).json({ success: true })
     } catch (error) {
-        console.log(error);
+        return res.status(400).json({ ok: false, error: tokenVerificationErrors[error.message]})
     }
 };
 export const tokenVerificationErrors = {

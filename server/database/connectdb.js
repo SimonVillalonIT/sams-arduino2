@@ -1,20 +1,27 @@
 import { Sequelize } from 'sequelize';
 
-// Option 3: Passing parameters separately (other dialects)
-const db = new Sequelize('sams', 'simon', 'password', {
-  host: 'localhost',
-  dialect: "mariadb",
-  define: {
-    underscored: true,
-    freezeTableName: true
-  }
+const { DB_HOST, DB_NAME, DB_PASSWORD, DB_USER } = process.env
+
+export const db = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
+    host: DB_HOST,
+    dialect: "mariadb",
+    logging: false,
+    define: {
+        underscored: true,
+        freezeTableName: true
+    }
 });
 
-try {
-  await db.authenticate();
-  console.log('Connection has been established successfully.');
-} catch (error) {
-  console.error('Unable to connect to the database:', error);
+export default async function ConnectDB() {
+    try {
+        await db.authenticate()
+        console.log('Conectado a la base de datos.')
+        await import("../models/associations.js")
+        console.log("Relaciones cargadas")
+        await db.sync()
+        console.log("Base de datos sincronizada.")
+    } catch (error) {
+        console.error('No se pudo conectar a la base de datos:', error);
+    }
 }
 
-export default db
