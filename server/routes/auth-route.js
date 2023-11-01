@@ -8,9 +8,10 @@ import {
 
 const router = Router();
 
-router.post("/register", bodyRegisterValidator, AuthController.register);
-router.post("/login", bodyLoginValidator, AuthController.login);
 router.get("/protected", requireToken,(req, res) => res.json({message: "Protected message"}) );
 router.get("/verify", AuthController.verifyToken)
 router.get("/logout", AuthController.logout);
+router.post("/register", bodyRegisterValidator, AuthController.register);
+router.post("/login", bodyLoginValidator, AuthController.login);
+
 export default router;

@@ -4,7 +4,7 @@ import { requireToken } from "../middlewares/require-token.js";
 
 const router = Router();
 
-router.post("/store", DeviceController.store);
+router.get("/assign", DeviceController.assign);
 router.use(requireToken)
 router.get("/", DeviceController.getUserDevices)
 router.get("/:id", DeviceController.getDevice)

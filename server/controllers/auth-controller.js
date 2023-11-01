@@ -48,9 +48,9 @@ class UserController {
     }
 
     verifyToken(req, res) {
-        const result = validateToken(req.cookies.accessToken);
-        console.log(result);
-        res.send("Reached");
+        const {error} = validateToken(req.cookies.accessToken);
+        if(error) return res.status(403).json(error)
+        res.status(200).json({ok:true})
     }
 }
 

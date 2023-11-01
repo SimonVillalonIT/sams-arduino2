@@ -1,8 +1,10 @@
-import Form from "@/components/form";
+import Form from "@/components/auth/form-container";
 
 export default function Page() {
     return (
-        <main>
+        <main className="flex justify-center pt-8 ">
             <Form />
-        </main>)
+        </main>
+
+    )
 }

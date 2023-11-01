@@ -1,6 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
 import api from "./lib/axios";
-import { verify } from "crypto";
 
 export async function middleware(req: NextRequest) {
   const accessToken = req.cookies.get("accessToken")?.value

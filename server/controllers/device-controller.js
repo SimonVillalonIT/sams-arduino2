@@ -1,11 +1,13 @@
 import DeviceModel from "../models/device-model.js"
 import UserDeviceModel from "../models/user-device-model.js"
 import UserModel from "../models/user-model.js"
+import { sendUpdate } from "../sockets/device-socket.js"
 import { validBody } from "../utils/device-utils.js"
 
 class DeviceController {
     constructor() { }
-    async store(req, res) {
+
+    async assign(req, res) {
         try {
             const { id } = await DeviceModel.create()
             res.json({ id })
@@ -13,6 +15,7 @@ class DeviceController {
             res.status(500)
         }
     }
+
     async link(req, res) {
         const { deviceId, name } = req.body
         if (!deviceId) return res.status(400).json({ error: "Debes enviar el id del dispositivo" })
@@ -32,6 +35,7 @@ class DeviceController {
             return res.status(500).json({ error: "Error en el servidor" })
         }
     }
+
     async getUserDevices(req, res) {
         try {
             const { devices } = await UserModel.findOne({ where: { id: req.uid }, include: DeviceModel })
@@ -53,13 +57,21 @@ class DeviceController {
             res.status(404).json({ error: error.message })
         }
     }
+
     async updateDevice(req, res) {
         if (validBody(req.body)) {
             try {
+                const deviceUsers = await UserDeviceModel.findAll({
+                    where: {
+                        deviceId: req.body.id,
+                    },
+                });
+                sendUpdate(deviceUsers, req.body)
+
                 const updateDevice = await DeviceModel.update(req.body, { where: { id: req.body.id } })
                 if (updateDevice[0] === 1) { return res.status(204).send("Ok") }
                 else {
-                    res.status(404).json({error: "No se encontro el dispositivo"})
+                    res.status(404).json({ error: "No se encontro el dispositivo" })
                 }
             } catch (error) {
                 console.log(error)

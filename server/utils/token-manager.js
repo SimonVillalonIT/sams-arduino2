@@ -20,7 +20,7 @@ export const generateToken = (uid, res) => {
             expires: new Date(Date.now() + expiresIn * 1000),
             secure: !(process.env.MODO === "developer"),
             sameSite: "none",
-        }).json({ success: true })
+        }).json({ id: uid})
     } catch (error) {
         return res.status(400).json({ ok: false, error: tokenVerificationErrors[error.message]})
     }
