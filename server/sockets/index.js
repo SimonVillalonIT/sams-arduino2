@@ -13,7 +13,15 @@ export default function sockets(server) {
         socket.on("user", ({ id }) => {
             usersSockets.set(id, socket)
         })
+        socket.on("ping", () => {
+            console.log("Received a ping")
+        })
+        socket.on("disconnect", () => {
+            for (const [key, value] of usersSockets) {
+                if (value === socket) {
+                    usersSockets.delete(key);
+                }
+            }
+        })
     })
-
-
 }
