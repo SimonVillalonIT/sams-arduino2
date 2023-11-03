@@ -1,30 +1,30 @@
-"use client"
-import useUserStore from '@/stores/userStore';
-import { useEffect, useState } from 'react';
-import io from 'socket.io-client';
+"use client";
+
+import useUserStore from "@/stores/userStore";
+import { useEffect, useState } from "react";
+import io from "socket.io-client";
 
 let socket: any;
 
 const Home = () => {
-    const [state, setState] = useState({})
-    const { id } = useUserStore()
-    useEffect(() => socketInitializer(), []);
+  const [state, setState] = useState({});
+  const { id } = useUserStore();
+  useEffect(() => socketInitializer(), []);
 
-    const socketInitializer = () => {
-        socket = io("http://localhost:8080"); // Note: Use the full URL, including "http://"
+  const socketInitializer = () => {
+    socket = io("http://localhost:8080"); // Note: Use the full URL, including "http://"
 
-        socket.on('connect', () => {
-            console.log('connected');
-            socket.emit("user", { id: id })
-        });
-        socket.on("deviceUpdate", (data: {}) => { setState(data); console.log(data) })
-    }
+    socket.on("connect", () => {
+      console.log("connected");
+      socket.emit("user", { id: id });
+    });
+    socket.on("deviceUpdate", (data: {}) => {
+      setState(data);
+      console.log(data);
+    });
+  };
 
-    return (
-        <div>
-            {JSON.stringify(state)}
-        </div>)
-}
+  return <div>{JSON.stringify(state)}</div>;
+};
 
 export default Home;
-

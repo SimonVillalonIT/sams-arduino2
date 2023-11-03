@@ -1,8 +1,7 @@
 import { DataTypes, UUIDV4 } from "sequelize";
 import { db } from "../database/connectdb.js";
 
-const Device = db.define("device", {
-    // Model attributes are defined here
+const Notification = db.define("device", {
     id: {
         type: DataTypes.UUID,
         allowNull: false,
@@ -13,10 +12,10 @@ const Device = db.define("device", {
         type: DataTypes.STRING,
         allowNull: true,
     },
-    active: {
+    accepted: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
     },
 });
 
-export default Device;
+export default Notification;

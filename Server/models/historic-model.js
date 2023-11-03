@@ -6,7 +6,7 @@ const Historic = db.define("historic", {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
-        allowNull: false
+        allowNull: false,
     },
     sensor1: {
         type: DataTypes.INTEGER,
@@ -32,6 +32,6 @@ const Historic = db.define("historic", {
         type: DataTypes.INTEGER,
         allowNull: true,
     },
-})
+});
 
-export default Historic
+export default Historic;
