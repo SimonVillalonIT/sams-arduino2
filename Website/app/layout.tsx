@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import "@/styles/globals.css"
 import Navbar from "@/components/home/navbar"
 import { cn } from "@/lib/utils";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const inter = Inter({
     subsets: ["latin"],
@@ -20,19 +21,20 @@ export default function RootLayout({
 }: {
     children: React.ReactNode
 }) {
+    const client = new QueryClient()
     return (
         <html suppressHydrationWarning lang="en">
             <body className={cn(
                 "bg-background font-sans text-foreground antialiased",
                 inter.variable,
             )}>
-                <ThemeProvider attribute="class"
-                    defaultTheme="system"
-                    enableSystem
-                    disableTransitionOnChange>
-                    <Navbar />
+                    <ThemeProvider attribute="class"
+                        defaultTheme="system"
+                        enableSystem
+                        disableTransitionOnChange>
+                        <Navbar />
                         {children}
-                </ThemeProvider>
+                    </ThemeProvider>
             </body>
         </html>
     )

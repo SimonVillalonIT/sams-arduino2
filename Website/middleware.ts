@@ -1,18 +1,25 @@
 import { NextResponse, type NextRequest } from "next/server";
-import api from "./lib/axios";
 
 export async function middleware(req: NextRequest) {
     const accessToken = req.cookies.get("accessToken")?.value
     const res = NextResponse.next();
-
+    const response = await fetch("http://localhost:8080/api/v1/auth/verify", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ accessToken })
+    })
+    const data = await response.json()
+    console.log(data.ok)
 
     const { origin, pathname } = new URL(req.url);
 
-    if (accessToken && pathname === "/auth") {
+    if (data.ok && pathname === "/auth") {
         return NextResponse.redirect(new URL("/dashboard", origin));
     }
 
-    if (!accessToken && pathname.startsWith("/dashboard")) {
+    if (!data.ok && pathname.startsWith("/dashboard")) {
         return NextResponse.redirect(new URL("/auth", origin));
     }
 

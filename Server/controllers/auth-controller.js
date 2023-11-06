@@ -2,7 +2,7 @@ import { generateToken, validateToken } from "../utils/token-manager.js";
 import UserModel from "../models/user-model.js";
 
 class UserController {
-    constructor() {}
+    constructor() { }
 
     async register(req, res) {
         const { email, password } = req.body;
@@ -20,19 +20,20 @@ class UserController {
     }
 
     async login(req, res) {
+        const { email, password } = req.body;
+        const error = "Email o contraseña incorrecta"
         try {
-            const { email, password } = req.body;
             let user = await UserModel.findOne({
                 where: {
                     email,
                 }
             });
             if (!user)
-                return res.status(403).json({ error: "El usuario no existe" });
+                return res.status(400).json({ error });
 
             const validPassword = await user.validatePassword(password);
             if (!validPassword)
-                return res.status(403).json({ error: "Contraseña incorrecta" });
+                return res.status(400).json({ error });
 
             // Generate the JWT token
             generateToken(user.id, res);
@@ -48,9 +49,9 @@ class UserController {
     }
 
     verifyToken(req, res) {
-        const {error} = validateToken(req.cookies.accessToken);
-        if(error) return res.status(403).json(error)
-        res.status(200).json({ok:true})
+        const { error } = validateToken(req.body.accessToken);
+        if (error) return res.status(403).json(error)
+        res.status(200).json({ ok: true })
     }
 }
 

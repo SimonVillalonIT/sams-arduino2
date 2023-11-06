@@ -32,7 +32,7 @@ class DeviceController {
         try {
             const result = await DeviceModel.update({ name: name }, { where: { id: deviceId } });
             if (result[0] === 1) {
-                await UserDeviceModel.create({
+               await UserDeviceModel.create({
                     userId: req.uid,
                     deviceId: deviceId,
                     admin: true,
@@ -40,7 +40,8 @@ class DeviceController {
                 res.status(204).json({ ok: true });
             } else {
                 throw new Error("Device not found");
-            }
+
+}
         } catch (error) {
             console.log(error);
             return res.status(500).json({ error: "Error en el servidor" });
@@ -49,7 +50,7 @@ class DeviceController {
 
     async getUserDevices(req, res) {
         try {
-            const { devices } = await UserModel.findOne({
+            const { devices } = await UserModel.findAll({
                 where: { id: req.uid },
                 include: DeviceModel,
             });
@@ -106,6 +107,8 @@ class DeviceController {
         }
         return res.status(400).json({ error: "Formato de peticion invalido" });
     }
+
+
 }
 
 export default new DeviceController();

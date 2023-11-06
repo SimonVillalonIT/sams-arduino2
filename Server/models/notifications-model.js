@@ -1,21 +1,29 @@
-import { DataTypes, UUIDV4 } from "sequelize";
+import { DataTypes } from "sequelize";
 import { db } from "../database/connectdb.js";
 
-const Notification = db.define("device", {
+const NotificationModel = db.define("notification", {
     id: {
-        type: DataTypes.UUID,
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
         allowNull: false,
-        defaultValue: UUIDV4,
         primaryKey: true,
-    },
-    name: {
-        type: DataTypes.STRING,
-        allowNull: true,
     },
     accepted: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
     },
+    userId: {
+        type: DataTypes.UUID
+    },
+    deviceId: {
+        type: DataTypes.UUID
+    }
+}, {
+    uniqueKeys: {
+        unique_notification: {
+            fields: ["userId", "deviceId"]
+        }
+    }
 });
 
-export default Notification;
+export default NotificationModel;

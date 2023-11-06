@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 export const validateToken = (token) => {
     try {
         if (!token) throw new Error("No Bearer");
-
+        console.log(token)
         jwt.verify(token, process.env.JWT_SECRET);
         return { ok: true, error: null }
     } catch (error) {
@@ -20,9 +20,9 @@ export const generateToken = (uid, res) => {
             expires: new Date(Date.now() + expiresIn * 1000),
             secure: !(process.env.MODO === "developer"),
             sameSite: "none",
-        }).json({ id: uid})
+        }).json({ id: uid })
     } catch (error) {
-        return res.status(400).json({ ok: false, error: tokenVerificationErrors[error.message]})
+        return res.status(400).json({ ok: false, error: tokenVerificationErrors[error.message] })
     }
 };
 export const tokenVerificationErrors = {

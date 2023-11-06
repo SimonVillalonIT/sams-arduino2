@@ -13,9 +13,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import useLoginForm from "@/hooks/useLoginForm";
 import { cn } from "@/lib/utils";
+import {Loader2} from "lucide-react"
 
 export default function LoginForm({ changeState }: { changeState: (bool: boolean) => void }) {
-    const { form, onSubmit, error, isLoading } = useLoginForm();
+    const { form, onSubmit, error, isPending } = useLoginForm();
 
     return (
         <Card className="min-w-[700px]">
@@ -23,7 +24,7 @@ export default function LoginForm({ changeState }: { changeState: (bool: boolean
                 <CardTitle>Iniciar sesión</CardTitle>
 
                 <CardDescription className={cn(error && "text-destructive")}>
-                    {error ? error : "Introduce tus credenciales para iniciar sesión."}
+                    {error ? error.message : "Introduce tus credenciales para iniciar sesión."}
                 </CardDescription>
             </CardHeader>
 
@@ -74,14 +75,14 @@ export default function LoginForm({ changeState }: { changeState: (bool: boolean
                         />
 
                         <Button
-                            title={isLoading ? "Cargando..." : "Iniciar sesión"}
+                            title={isPending ? "Cargando..." : "Iniciar sesión"}
                             type="submit"
                             className="w-1/3 "
-                            disabled={isLoading}
-                            {...(isLoading && { "aria-label": "Cargando..." })}
+                            disabled={isPending}
+                            {...(isPending && { "aria-label": "Cargando..." })}
                         >
-                            {isLoading ? (
-                                "loading..."
+                            {isPending ? (
+                            <Loader2 className="animate-spin" />
                             ) : (
                                 "Iniciar sesión"
                             )}
