@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import useRegisterForm from "@/hooks/useRegisterForm";
+import { Loader2 } from "lucide-react"
 
 export default function RegisterForm({ changeState }: { changeState: (bool: boolean) => void }) {
     const { form, onSubmit, error, isLoading } = useRegisterForm();
@@ -100,7 +101,7 @@ export default function RegisterForm({ changeState }: { changeState: (bool: bool
                             {...(isLoading && { "aria-label": "Cargando..." })}
                         >
                             {isLoading ? (
-                                "loading..."
+                                <Loader2 className="animate-spin" />
                             ) : (
                                 "Registrarse"
                             )}
