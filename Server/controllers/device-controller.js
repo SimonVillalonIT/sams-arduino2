@@ -32,16 +32,15 @@ class DeviceController {
         try {
             const result = await DeviceModel.update({ name: name }, { where: { id: deviceId } });
             if (result[0] === 1) {
-               await UserDeviceModel.create({
-                    userId: req.uid,
-                    deviceId: deviceId,
+                await UserDeviceModel.create({
+                    user_id: req.uid,
+                    device_id: deviceId,
                     admin: true,
                 });
                 res.status(204).json({ ok: true });
             } else {
                 throw new Error("Device not found");
-
-}
+            }
         } catch (error) {
             console.log(error);
             return res.status(500).json({ error: "Error en el servidor" });
@@ -79,7 +78,10 @@ class DeviceController {
             try {
                 const deviceUsers = await UserDeviceModel.findAll({
                     where: {
-                        deviceId: req.body.id,
+                        device_id: req.body.id,
+                    },
+                    attributes: {
+                        exclude: ["id"],
                     },
                 });
                 sendUpdate(deviceUsers, req.body);
@@ -98,17 +100,16 @@ class DeviceController {
                     });
                     return res.status(204).send("Ok");
                 } else {
-                    res.status(404).json({ error: "No se encontro el dispositivo" });
+                    return res
+                        .status(404)
+                        .json({ error: "No se encontro el dispositivo" });
                 }
             } catch (error) {
-                console.log(error);
                 return res.status(500).json({ error: "Error en el servidor" });
             }
         }
         return res.status(400).json({ error: "Formato de peticion invalido" });
     }
-
-
 }
 
 export default new DeviceController();
