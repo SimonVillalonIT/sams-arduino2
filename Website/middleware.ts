@@ -11,7 +11,6 @@ export async function middleware(req: NextRequest) {
         body: JSON.stringify({ accessToken })
     })
     const data = await response.json()
-    console.log(data.ok)
 
     const { origin, pathname } = new URL(req.url);
 

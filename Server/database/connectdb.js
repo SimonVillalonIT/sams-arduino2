@@ -16,7 +16,7 @@ export default async function ConnectDB() {
     try {
         await db.authenticate();
         console.log("Conectado a la base de datos.");
-        //await import("../models/associations.js")
+        await import("../models/associations.js")
         console.log("Relaciones cargadas");
         await db.sync();
         console.log("Base de datos sincronizada.");

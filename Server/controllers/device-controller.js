@@ -6,7 +6,7 @@ import { sendUpdate } from "../sockets/device-socket.js";
 import { validBody } from "../utils/device-utils.js";
 
 class DeviceController {
-    constructor() {}
+    constructor() { }
 
     async assign(req, res) {
         try {
@@ -49,14 +49,15 @@ class DeviceController {
 
     async getUserDevices(req, res) {
         try {
-            const { devices } = await UserModel.findAll({
+            const [data] = await UserModel.findAll({
                 where: { id: req.uid },
                 include: DeviceModel,
+                attributes: ["devices.id", "devices.name", "devices.active"],
             });
-            res.status(200).json({ data: devices });
+            if (data.dataValues.devices.length > 0) return res.status(200).json({ data: data.dataValues.devices, error: null });
+            return res.status(404).json({ data: null, error: "El usuario no tiene dispositivos asociados" });
         } catch (error) {
-            console.error("Error obteniendo los dispositivos:", error);
-            res.status(404).json({ error });
+            return res.status(500).json({ data: null, error });
         }
     }
 
