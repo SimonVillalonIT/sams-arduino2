@@ -6,7 +6,16 @@ export const sendUpdate = (deviceUsers, data) => {
         let userSocket = usersSockets.get(userId);
         if (userSocket) {
             userSocket.emit("deviceUpdate", data);
-            console.log({ message: "deviceUpdate", data });
+        }
+    }
+};
+
+export const sendDisconneted = async (deviceUsers, deviceId) => {
+    for (const deviceUser of deviceUsers) {
+        const userId = deviceUser.dataValues.userId;
+        let userSocket = usersSockets.get(userId);
+        if (userSocket) {
+            userSocket.emit("deviceDisconnected", deviceId);
         }
     }
 };

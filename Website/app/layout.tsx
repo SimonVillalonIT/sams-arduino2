@@ -1,43 +1,54 @@
-import { Inter } from "next/font/google";
-import { Metadata } from "next";
-import { ThemeProvider } from "@/components/theme-provider";
-import "@/styles/globals.css";
-import Navbar from "@/components/home/navbar";
-import { cn } from "@/lib/utils";
+import "@/styles/globals.css"
+import { Metadata } from "next"
+import { font } from "@/font"
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
+import { siteConfig } from "@/config/site"
+import { cn } from "@/lib/utils"
+import { SiteHeader } from "@/components/site-header"
+import { TailwindIndicator } from "@/components/tailwind-indicator"
+import { ThemeProvider } from "@/components/theme-provider"
 
 export const metadata: Metadata = {
-  title: "Sams",
-  description: "Pagina oficial de Sams",
-};
+  title: {
+    default: siteConfig.name,
+    template: `%s - ${siteConfig.name}`,
+  },
+  description: siteConfig.description,
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "white" },
+    { media: "(prefers-color-scheme: dark)", color: "black" },
+  ],
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon-16x16.png",
+    apple: "/apple-touch-icon.png",
+  },
+}
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+interface RootLayoutProps {
+  children: React.ReactNode
+}
+
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html suppressHydrationWarning lang="en">
-      <body
-        className={cn(
-          "bg-background font-sans text-foreground antialiased",
-          inter.variable
-        )}
-      >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
+    <>
+      <html lang="en" suppressHydrationWarning>
+        <head />
+        <body
+          className={cn(
+            "min-h-screen bg-background font-sans antialiased",
+            font.className
+          )}
         >
-          <Navbar />
-          {children}
-        </ThemeProvider>
-      </body>
-    </html>
-  );
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <div className="flex min-h-screen flex-col space-y-6">
+              <SiteHeader />
+              {children}
+            </div>
+            <TailwindIndicator />
+          </ThemeProvider>
+        </body>
+      </html>
+    </>
+  )
 }

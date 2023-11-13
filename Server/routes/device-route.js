@@ -10,6 +10,7 @@ router.put("/", checkDevice, DeviceController.updateDevice)
 router.use(requireToken)
 router.get("/", DeviceController.getUserDevices)
 router.get("/:id", DeviceController.getDevice)
+router.get("/deviceUsers/:id", DeviceController.getDeviceUsers)
 router.post("/link", DeviceController.link);
 
 export default router;

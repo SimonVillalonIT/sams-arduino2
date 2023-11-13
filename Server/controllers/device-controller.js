@@ -1,3 +1,5 @@
+import { Op } from "sequelize";
+import { deviceHeartbeats } from "../middlewares/check-device.js";
 import DeviceModel from "../models/device-model.js";
 import Historic from "../models/historic-model.js";
 import UserDeviceModel from "../models/user-device-model.js";
@@ -51,12 +53,40 @@ class DeviceController {
         try {
             const [data] = await UserModel.findAll({
                 where: { id: req.uid },
-                include: DeviceModel,
-                attributes: ["devices.id", "devices.name", "devices.active"],
+                attributes: { exclude: ["*"] },
+                include: {
+                    model: DeviceModel,
+                    attributes: { include: ["id", "name", "active"] },
+                    through: { attributes: [] },
+                }
             });
             if (data.dataValues.devices.length > 0) return res.status(200).json({ data: data.dataValues.devices, error: null });
             return res.status(404).json({ data: null, error: "El usuario no tiene dispositivos asociados" });
         } catch (error) {
+            console.log(error)
+            return res.status(500).json({ data: null, error });
+        }
+    }
+
+    async getDeviceUsers(req, res) {
+        const userId = req.uid
+        const {id} = req.params
+         try {
+            const [data] = await DeviceModel.findAll({
+                where: { id },
+                attributes: { exclude: ["*"] },
+                include: {
+                    model: UserModel,
+                    //where: {id:{[Op.ne]: userId}},
+                    attributes: {  exclude: ["password"] },
+                    through: { attributes: [] },
+                }
+            });
+             console.log(data.dataValues.users)
+            if (data.dataValues.users.length > 0) return res.status(200).json({ data:data.dataValues.users, error: null });
+            return res.status(404).json({ data: null, error: "El dispositivo no tiene usuarios asociados" });
+        } catch (error) {
+            console.log(error)
             return res.status(500).json({ data: null, error });
         }
     }
@@ -86,26 +116,23 @@ class DeviceController {
                     },
                 });
                 sendUpdate(deviceUsers, req.body);
-                const updateDevice = await DeviceModel.update({ active: true }, {
-                    where: { id: req.body.id },
-                });
-                if (updateDevice[0] === 1) {
-                    await Historic.create({
-                        sensor1: req.body.sensor1,
-                        sensor2: req.body.sensor2,
-                        sensor3: req.body.sensor3,
-                        sensor4: req.body.sensor4,
-                        sensor5: req.body.sensor5,
-                        sensor6: req.body.sensor6,
-                        deviceId: req.body.id,
+                if (!deviceHeartbeats.has(req.body.id)) {
+                    await DeviceModel.update({ active: true }, {
+                        where: { id: req.body.id },
                     });
-                    return res.status(204).send("Ok");
-                } else {
-                    return res
-                        .status(404)
-                        .json({ error: "No se encontro el dispositivo" });
                 }
+                await Historic.create({
+                    sensor1: req.body.sensor1,
+                    sensor2: req.body.sensor2,
+                    sensor3: req.body.sensor3,
+                    sensor4: req.body.sensor4,
+                    sensor5: req.body.sensor5,
+                    sensor6: req.body.sensor6,
+                    deviceId: req.body.id,
+                });
+                return res.status(204).send("Ok");
             } catch (error) {
+                console.log(error)
                 return res.status(500).json({ error: "Error en el servidor" });
             }
         }

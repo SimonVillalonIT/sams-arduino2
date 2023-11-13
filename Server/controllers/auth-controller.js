@@ -5,17 +5,18 @@ class UserController {
     constructor() { }
 
     async register(req, res) {
-        const { email, password } = req.body;
+        const {name, email, password } = req.body;
         try {
-            const user = await UserModel.create({ email, password });
+            const user = await UserModel.create({name, email, password });
             // Generate the JWT token
             generateToken(user.id, res);
         } catch (error) {
+            console.log(error)
             // Handle errors
             if (error.name === "SequelizeUniqueConstraintError") {
-                return res.status(400).json({ error: "El email ya se encuentra en uso" });
+                return res.status(400).json({ data: null, error: "El email ya se encuentra en uso" });
             }
-            return res.status(500).json({ error: "Server error" });
+            return res.status(500).json({ data: null, error: "Error en el servidor" });
         }
     }
 
@@ -29,17 +30,17 @@ class UserController {
                 }
             });
             if (!user)
-                return res.status(400).json({ error });
+                return res.status(400).json({ data: null, error });
 
             const validPassword = await user.validatePassword(password);
             if (!validPassword)
-                return res.status(400).json({ error });
+                return res.status(400).json({ data: null, error });
 
             // Generate the JWT token
             generateToken(user.id, res);
         } catch (error) {
             console.log(error);
-            return res.status(500).json({ error: "Server error" });
+            return res.status(500).json({ data: null, error: "Error en el servidor" });
         }
     }
 
