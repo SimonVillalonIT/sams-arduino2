@@ -1,7 +1,17 @@
+type User = {
+  id: string
+  name: string
+  email: string
+  admin: boolean
+  createdAt: string
+  updatedAt: string
+}
+
 type Classroom = {
   id: string
   name: string
   active: boolean
+  admin: boolean
   createdAt: string
   updatedAt: string
 }

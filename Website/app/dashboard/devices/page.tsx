@@ -18,13 +18,13 @@ const Dashboard = () => {
     return (
       <Container>
         <div className="flex">
-          {classrooms?.map((classroom) =>
+          {classrooms.length > 0 ? classrooms.map((classroom) =>
             classroom.active ? (
               <ClassroomCard key={classroom.id} {...classroom} />
             ) : (
               <ClassroomCard.unactive {...classroom} />
             )
-          )}
+          ): <p>No tiene aulas</p>}
         </div>
       </Container>
     )

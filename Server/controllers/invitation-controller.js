@@ -63,6 +63,22 @@ class InvitationController {
       );
     }
   }
+
+  async changePermission (req, res) {
+    const {userId, admin, deviceId} =req.body
+    if(!userId) return res.status(400).json({ok:null, error: "No se especifico ningun Id de usuario"})
+    if(admin === null || admin === undefined) return res.status(400).json({ok:null, error: "No se especifico ningun permiso"})
+    if(!deviceId) return res.status(400).json({ok:null, error: "No se especifico ningun Id de dispositivo"})
+
+    try {
+        await UserDeviceModel.update({admin}, {where: {"user_id": userId, "device_id": deviceId}})
+        return res.status(204).json({ok:true, error: null})
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({ok: null, error})
+    }
+
+  }
 }
 
 export default new InvitationController();

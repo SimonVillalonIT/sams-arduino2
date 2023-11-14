@@ -57,10 +57,10 @@ class DeviceController {
                 include: {
                     model: DeviceModel,
                     attributes: { include: ["id", "name", "active"] },
-                    through: { attributes: [] },
+                    through: { attributes: ["admin"] },
                 }
             });
-            if (data.dataValues.devices.length > 0) return res.status(200).json({ data: data.dataValues.devices, error: null });
+            if (data.dataValues.devices.length > 0) return res.status(200).json({ data: data.dataValues.devices, error: null })
             return res.status(404).json({ data: null, error: "El usuario no tiene dispositivos asociados" });
         } catch (error) {
             console.log(error)
@@ -77,12 +77,11 @@ class DeviceController {
                 attributes: { exclude: ["*"] },
                 include: {
                     model: UserModel,
-                    //where: {id:{[Op.ne]: userId}},
+                    where: {id:{[Op.ne]: userId}},
                     attributes: {  exclude: ["password"] },
-                    through: { attributes: [] },
+                    through: { attributes: ["admin"] },
                 }
             });
-             console.log(data.dataValues.users)
             if (data.dataValues.users.length > 0) return res.status(200).json({ data:data.dataValues.users, error: null });
             return res.status(404).json({ data: null, error: "El dispositivo no tiene usuarios asociados" });
         } catch (error) {

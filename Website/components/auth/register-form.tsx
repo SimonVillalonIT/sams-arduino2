@@ -49,18 +49,14 @@ export default function RegisterForm({
             className="space-y-6"
             onSubmit={form.handleSubmit(onSubmit)}
           >
-          <FormField
+            <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Nombre</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Nombre"
-                      type="text"
-                      {...field}
-                    />
+                    <Input placeholder="Nombre" type="text" {...field} />
                   </FormControl>
 
                   <FormMessage />

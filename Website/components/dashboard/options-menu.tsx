@@ -26,7 +26,24 @@ import { Dialog, DialogTrigger } from "../ui/dialog"
 import ShareCard from "./share-card"
 
 const OptionsMenu = ({ id }: { id: string }) => {
-  const router = useRouter()
+  return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <MoreVertical className="absolute top-3 right-3" />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>Opciones</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+            Ver detalles
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+  )
+}
+
+OptionsMenu.admin = ({id}:{id:string}) => {
+const router = useRouter()
   const [showDeleteAlert, setShowDeleteAlert] = useState<boolean>(false)
   const [isDeleteLoading, setIsDeleteLoading] = useState<boolean>(false)
 
@@ -94,6 +111,6 @@ const OptionsMenu = ({ id }: { id: string }) => {
       </AlertDialog>
     </>
   )
-}
+    }
 
 export default OptionsMenu

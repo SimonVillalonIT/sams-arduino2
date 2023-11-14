@@ -12,12 +12,12 @@ function DashboardLayout({ children }: PropsWithChildren) {
   const params = useSearchParams()
   useEffect(() => {
     if (params.get("success") === "true") {
-      toast({ description: "Invitacion aceptada con exito."})
+      toast({ description: "Invitacion aceptada con exito." })
     } else if (params.get("success") === "false") {
       toast({
         variant: "destructive",
         title: "Ups! Hubo un error",
-        description: "Ocurrio un error durante el procesamiento del link."
+        description: "Ocurrio un error durante el procesamiento del link.",
       })
     }
   }, [])

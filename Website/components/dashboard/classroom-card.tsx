@@ -5,6 +5,7 @@ import OptionsMenu from "./options-menu"
 const ClassroomCard = ({
   id,
   name,
+  admin,
   sensor1,
   sensor2,
   sensor3,
@@ -21,7 +22,7 @@ const ClassroomCard = ({
   return (
     <Card className="w-64 h-80 relative">
       <CardContent>
-        <OptionsMenu id={id} />
+        {admin ? <OptionsMenu.admin id={id} /> : <OptionsMenu id={id} />}
         {noisiest}
       </CardContent>
       <CardTitle>{name}</CardTitle>
@@ -29,10 +30,10 @@ const ClassroomCard = ({
   )
 }
 
-ClassroomCard.unactive = ({ id, name }: Classroom) => (
+ClassroomCard.unactive = ({ id, name, admin }: Classroom) => (
   <Card className="w-64 h-80 relative">
     <CardContent>
-      <OptionsMenu id={id} />
+      {admin ? <OptionsMenu.admin id={id} /> : <OptionsMenu id={id} />}
       <p>El dispositivo esta apagado</p>
     </CardContent>
     <CardTitle>{name}</CardTitle>

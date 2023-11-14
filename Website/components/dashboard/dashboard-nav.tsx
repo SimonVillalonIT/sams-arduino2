@@ -2,9 +2,9 @@
 
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { Home, Radio, LogOut } from "lucide-react"
-import {handleLogOut} from "@/lib/auth"
+import { Home, LogOut, Radio } from "lucide-react"
 
+import { handleLogOut } from "@/lib/auth"
 import { cn } from "@/lib/utils"
 
 export default function DashboardNav() {
@@ -19,12 +19,15 @@ export default function DashboardNav() {
       title: "Dispositivos",
     },
     {
-    href: "/",
-    Icon: LogOut,
-    disabled: false,
-    title: "Cerrar sesión",
-    onClick: ()=>{handleLogOut();router.refresh() }
-    }
+      href: "/",
+      Icon: LogOut,
+      disabled: false,
+      title: "Cerrar sesión",
+      onClick: () => {
+        handleLogOut()
+        router.refresh()
+      },
+    },
   ]
   const router = useRouter()
   return (
@@ -33,7 +36,11 @@ export default function DashboardNav() {
         const { Icon } = item
         return (
           item.href && (
-            <Link onClick={item.onClick} key={index} href={item.disabled ? "/" : item.href}>
+            <Link
+              onClick={item.onClick}
+              key={index}
+              href={item.disabled ? "/" : item.href}
+            >
               <span
                 className={cn(
                   "group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground",

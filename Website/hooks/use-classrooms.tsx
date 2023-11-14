@@ -18,6 +18,23 @@ export default function useClassroom() {
   const getClassrooms = async () => {
     try {
       const { data } = await api.get("/device/")
+      type RawClassroom = Classroom & {
+        "user-device": { admin: boolean }
+      }
+      data.data = data.data.map((item: RawClassroom) => {
+        // Extract values
+        const {
+          name,
+          active,
+          id,
+          createdAt,
+          updatedAt,
+          "user-device": { admin },
+        } = item
+
+        // Create a new object with the desired structure
+        return { id, name, active, admin, createdAt, updatedAt }
+      })
       setClassrooms(data.data)
       console.log(data.data)
       setIsLoading(false)
@@ -90,6 +107,7 @@ export default function useClassroom() {
             active: false,
             createdAt: newState[index].createdAt,
             updatedAt: newState[index].updatedAt,
+            admin: newState[index].admin
           }
           console.log("Updated State:", newState)
         } else {

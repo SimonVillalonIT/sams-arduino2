@@ -24,13 +24,16 @@ export const handleLoginSubmit = async (
 
 export const registerSchema = z
   .object({
-    name: z.string().min(3, {message: "El nombre debe tener 3 caracteres"}).max(20, {message:"El nombre no debe superar los 20 caracteres"}),
+    name: z
+      .string()
+      .min(3, { message: "El nombre debe tener 3 caracteres" })
+      .max(20, { message: "El nombre no debe superar los 20 caracteres" }),
     email: z
       .string()
       .email({ message: "¡El formato del correo electrónico es inválido!" }),
     password: z.string().min(8, {
-    message: "¡La contraseña debe tener por lo menos 8 caractéres!",
-  }),
+      message: "¡La contraseña debe tener por lo menos 8 caractéres!",
+    }),
     repassword: z.string(),
   })
   .refine(({ password, repassword }) => password === repassword, {
@@ -49,5 +52,5 @@ export const handleRegisterSubmit = async (
 }
 
 export const handleLogOut = async () => {
-    await api.get("auth/logout")
-  }
+  await api.get("auth/logout")
+}

@@ -7,5 +7,6 @@ const router = Router();
 router.use(requireToken)
 router.get("/validate", InvitationController.getLink);
 router.post("/generate", InvitationController.generateLink);
+router.put("/changePermission", InvitationController.changePermission);
 
 export default router
