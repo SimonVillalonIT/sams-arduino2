@@ -72,5 +72,19 @@ class DataController {
             error: null,
         });
     }
+
+    async getDeviceGraph(req, res) {
+        const { id } = req.params;
+        const query =
+            "SELECT sensor1, sensor2, sensor3, sensor4,sensor5,sensor6,updated_at FROM historic h WHERE h.device_id = ?";
+        const [results] = await db.query(query, {
+            replacements: [id],
+        });
+
+        res.json({
+            data: results,
+            error: null,
+        });
+    }
 }
 export default new DataController();

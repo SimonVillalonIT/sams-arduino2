@@ -7,5 +7,6 @@ const router = Router();
 router.use(requireToken);
 router.get("/dashboard", DataController.getDashboard);
 router.get("/graph", DataController.getGraph);
+router.get("/graph/:id", DataController.getDeviceGraph);
 
 export default router;
