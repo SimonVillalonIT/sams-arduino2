@@ -1,6 +1,7 @@
 import { useState } from "react"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { Loader2, MoreVertical, Share2, Trash } from "lucide-react"
+import { Loader2, MoreVertical, Radio, Share2, Trash } from "lucide-react"
 
 import { deleteClassroom } from "@/lib/classroom"
 import {
@@ -27,23 +28,28 @@ import ShareCard from "./share-card"
 
 const OptionsMenu = ({ id }: { id: string }) => {
   return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <MoreVertical className="absolute top-3 right-3" />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuLabel>Opciones</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-            Ver detalles
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <MoreVertical className="absolute top-3 right-3" />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuLabel>Opciones</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem className="w-full">
+          <Link
+            className="flex justify-between w-full"
+            href={`/dashboard/devices/${id}`}
+          >
+            Detalles <Radio size={16} />
+          </Link>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }
 
-OptionsMenu.admin = ({id}:{id:string}) => {
-const router = useRouter()
+OptionsMenu.admin = ({ id }: { id: string }) => {
+  const router = useRouter()
   const [showDeleteAlert, setShowDeleteAlert] = useState<boolean>(false)
   const [isDeleteLoading, setIsDeleteLoading] = useState<boolean>(false)
 
@@ -57,6 +63,14 @@ const router = useRouter()
           <DropdownMenuContent>
             <DropdownMenuLabel>Opciones</DropdownMenuLabel>
             <DropdownMenuSeparator />
+            <DropdownMenuItem className="w-full">
+              <Link
+                className="flex justify-between w-full"
+                href={`/dashboard/devices/${id}`}
+              >
+                Detalles <Radio size={16} />
+              </Link>
+            </DropdownMenuItem>
             <DropdownMenuItem>
               <DialogTrigger className="flex justify-between w-full">
                 Compartir <Share2 size={16} />
@@ -111,6 +125,6 @@ const router = useRouter()
       </AlertDialog>
     </>
   )
-    }
+}
 
 export default OptionsMenu

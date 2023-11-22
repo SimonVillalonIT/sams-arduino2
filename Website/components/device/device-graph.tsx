@@ -26,7 +26,7 @@ const customTooltip = ({ payload, active }: { payload: any; active: any }) => {
   )
 }
 
-export default function Graph() {
+export default function DeviceGraph() {
   const [data, setData] = useState<{ Fecha: Date; Decibeles: number }[] | null>(
     null
   )
@@ -60,7 +60,7 @@ export default function Graph() {
           className= "mt-4 text-foreground bg-transparent"
           data={data}
           index="Fecha"
-          categories={["Decibeles"]}
+          categories={["S"]}
           yAxisWidth={30}
         />
       </Card>

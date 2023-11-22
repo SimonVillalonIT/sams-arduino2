@@ -107,7 +107,7 @@ export default function useClassroom() {
             active: false,
             createdAt: newState[index].createdAt,
             updatedAt: newState[index].updatedAt,
-            admin: newState[index].admin
+            admin: newState[index].admin,
           }
           console.log("Updated State:", newState)
         } else {

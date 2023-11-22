@@ -15,7 +15,7 @@ export default function Container({ children }: PropsWithChildren) {
           <Plus className="mr-2" size={16} /> Crear
         </button>
       </div>
-      {children}
+      <div className="grid grid-cols-4 gap-8">{children}</div>
     </section>
   )
 }

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react"
 import { Volume1 } from "lucide-react"
 
 import api from "@/lib/axios"
+import useClassrooms from "@/hooks/use-classrooms"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -17,6 +18,7 @@ import Graph from "@/components/dashboard/graph"
 import { DatePickerWithRange } from "@/components/date-range-picker"
 
 const Dashboard = () => {
+  const { classrooms, error, isLoading } = useClassrooms()
   const [data, setData] = useState<{
     noisyClassroom: string
     soundLevel: number
@@ -33,6 +35,7 @@ const Dashboard = () => {
     dataCallback()
   }, [])
 
+  if (isLoading) return <p>Loading...</p>
   if (data)
     return (
       <section className="grid items-start gap-2">
@@ -119,7 +122,7 @@ const Dashboard = () => {
                   </svg>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{data.devices}</div>
+                  <div className="text-2xl font-bold">{classrooms.length}</div>
                 </CardContent>
               </Card>
               <Card>
@@ -141,19 +144,14 @@ const Dashboard = () => {
                   </svg>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{data.activeDevices}</div>
+                  <div className="text-2xl font-bold">
+                    {classrooms.filter((c) => c.active === true).length}
+                  </div>
                 </CardContent>
               </Card>
             </div>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-              <Card className="col-span-4">
-                <CardHeader>
-                  <CardTitle>Promedio de sonido en todas las aulas</CardTitle>
-                </CardHeader>
-                <CardContent className="pl-2">
-                  <Graph />
-                </CardContent>
-              </Card>
+              <Graph />
               <Card className="col-span-3">
                 <CardHeader>
                   <CardTitle>Tus configuraciones</CardTitle>
