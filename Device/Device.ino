@@ -123,6 +123,10 @@ void assignBoardId() {
     Serial.printf("Device id: '%s'.\n", deviceId.c_str());
     return;
   }
+
+  if( WiFi.status() != WL_CONNECTED) {
+    return;
+    }
   HTTPClient http;
   String url = API_URL + "/assign";
   http.begin(url);

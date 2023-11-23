@@ -5,27 +5,6 @@ import { AreaChart, Card, Title } from "@tremor/react"
 
 import api from "@/lib/axios"
 
-const customTooltip = ({ payload, active }: { payload: any; active: any }) => {
-  if (!active || !payload) return null
-  return (
-    <div className="w-56 rounded-tremor-default text-foreground bg-background p-2 shadow-tremor-dropdown border border-tremor-border">
-      {payload.map((category: any, idx: any) => (
-        <div key={idx} className="flex flex-1 space-x-2.5">
-          <div
-            className={`w-1 flex flex-col bg-${category.color}-500 rounded`}
-          />
-          <div className="space-y-1">
-            <p className="text-tremor-content"></p>
-            <p className="font-medium text-tremor-content-emphasis">
-              {category.value} db
-            </p>
-          </div>
-        </div>
-      ))}
-    </div>
-  )
-}
-
 export default function DeviceGraph({ deviceId }: { deviceId: string }) {
   const [data, setData] = useState<
     | {
@@ -74,7 +53,7 @@ export default function DeviceGraph({ deviceId }: { deviceId: string }) {
 
   if (data)
     return (
-      <Card className="col-span-4 bg-transparent">
+      <Card className="col-span-5 bg-transparent">
         <Title className="text-3xl font-bold">Aula mas ruidosa</Title>
         <AreaChart
           className="mt-4 text-foreground bg-transparent"

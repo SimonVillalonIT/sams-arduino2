@@ -49,11 +49,11 @@ function Classroom({
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-lg font-medium">{name}</CardTitle>
+              <CardTitle className="text-lg font-medium">Nombre</CardTitle>
               <Radio size={24} />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-semibold"></div>
+              <div className="text-2xl font-semibold">{name}</div>
             </CardContent>
           </Card>
           <Card>
@@ -116,16 +116,17 @@ function Classroom({
           </Card>
         </div>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-          <DeviceGraph deviceId={id} />
-          <Card className="col-span-3">
+          <Card className="col-span-2 flex flex-col">
             <CardHeader>
-              <CardTitle>Tus configuraciones</CardTitle>
-              <h1>Niveles aceptados</h1>
+              <h1>Dispositivo</h1>
             </CardHeader>
-            <CardContent>
-              <CardDescription>Niveles aceptados</CardDescription>
+            <CardContent className="w-full h-full justify-center text-center items-center grid grid-cols-2 grid-rows-3 ">
+              {sensors.map((s) => (
+                <p>{s}</p>
+              ))}
             </CardContent>
           </Card>
+          <DeviceGraph deviceId={id} />
         </div>
       </TabsContent>
     </Tabs>

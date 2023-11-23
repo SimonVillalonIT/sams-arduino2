@@ -17,33 +17,17 @@ const Dashboard = () => {
   if (classrooms)
     return (
       <Container>
-        <div className="flex">
-          {classrooms.length > 0 ? (
-            classrooms.map((classroom) =>
-              classroom.active ? (
-                <ClassroomCard key={classroom.id} {...classroom} />
-              ) : (
-                <ClassroomCard.unactive {...classroom} />
-              )
+        {classrooms.length > 0 ? (
+          classrooms.map((classroom) =>
+            classroom.active ? (
+              <ClassroomCard key={classroom.id} {...classroom} />
+            ) : (
+              <ClassroomCard.unactive {...classroom} />
             )
-          ) : (
-            <p>No tiene aulas</p>
-          )}
-        </div>
-        <ClassroomCard
-          id="asdasdasdas"
-          name="test"
-          admin={true}
-          active={true}
-          updatedAt="2023-2-12"
-          createdAt="2023-2-12"
-          sensor1={0}
-          sensor2={0}
-          sensor3={0}
-          sensor4={0}
-          sensor5={0}
-          sensor6={0}
-        />
+          )
+        ) : (
+          <p>No tiene aulas</p>
+        )}
       </Container>
     )
 }
