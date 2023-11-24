@@ -21,6 +21,7 @@ export default function DeviceGraph({ deviceId }: { deviceId: string }) {
       }[]
     | null
   >(null)
+
   const dataCallback = async () => {
     try {
       const { data } = await api.get("/data/graph/" + deviceId)
@@ -44,9 +45,11 @@ export default function DeviceGraph({ deviceId }: { deviceId: string }) {
           d.updated_at = fechaFormateada
         }
       )
+      console.log(data.data)
       setData(data.data)
     } catch (error) {}
   }
+
   useEffect(() => {
     dataCallback()
   }, [])
