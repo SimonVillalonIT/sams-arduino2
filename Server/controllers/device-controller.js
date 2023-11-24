@@ -32,7 +32,9 @@ class DeviceController {
         if (!req.uid)
             return res.status(400).json({ error: "Debes estar autenticado" });
         try {
-            const result = await DeviceModel.update({ name: name }, { where: { id: deviceId } });
+            const used = await UserDeviceModel.findOne({where:{device_id:deviceId, admin:true}})
+            if(used) return res.status(400).json({error: "El dispositivo ya a sido vinculado", data: null})
+            const result = await DeviceModel.update({ name}, { where: { id: deviceId } });
             if (result[0] === 1) {
                 await UserDeviceModel.create({
                     user_id: req.uid,

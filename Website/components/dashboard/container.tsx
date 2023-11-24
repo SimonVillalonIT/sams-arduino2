@@ -1,5 +1,8 @@
 import { PropsWithChildren } from "react"
 import { Plus } from "lucide-react"
+import { Dialog,DialogTrigger } from "../ui/dialog"
+import { Button } from "../ui/button"
+import CreateDialog from "../device/create-dialog"
 
 export default function Container({ children }: PropsWithChildren) {
   return (
@@ -11,9 +14,10 @@ export default function Container({ children }: PropsWithChildren) {
             Crea y administra tus dispositivos.
           </p>
         </div>
-        <button className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background bg-primary text-primary-foreground hover:bg-primary/90 h-10 py-2 px-4">
-          <Plus className="mr-2" size={16} /> Crear
-        </button>
+        <Dialog>
+  <DialogTrigger asChild><Button><Plus />Crear</Button></DialogTrigger>
+  <CreateDialog />
+  </Dialog>
       </div>
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {children}

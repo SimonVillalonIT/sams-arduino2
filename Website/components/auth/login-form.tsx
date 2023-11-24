@@ -67,7 +67,6 @@ export default function LoginForm({
                 </FormItem>
               )}
             />
-
             <FormField
               control={form.control}
               name="password"
@@ -86,7 +85,6 @@ export default function LoginForm({
                 </FormItem>
               )}
             />
-
             <Button
               title={isLoading ? "Cargando..." : "Iniciar sesión"}
               type="submit"
