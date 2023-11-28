@@ -22,7 +22,7 @@ const Dashboard = () => {
             classroom.active ? (
               <ClassroomCard key={classroom.id} {...classroom} />
             ) : (
-              <ClassroomCard.unactive {...classroom} />
+              <ClassroomCard.unactive key={classroom.id} {...classroom} />
             )
           )
         ) : (

@@ -37,3 +37,49 @@ export const getAverageSensors = (sensors: (number | undefined)[]) => {
     filteredSensors.reduce((a, b) => a + b, 0) / filteredSensors.length
   return average
 }
+
+interface GroupedData {
+  updated_at: string
+  [key: string]: number | string // Additional sensors with string keys
+}
+
+interface SensorData {
+  updated_at: string
+  [key: string]: number | string // Additional sensors with string keys
+}
+
+export const processData = (
+  data: SensorData[],
+  interval: number
+): GroupedData[] => {
+  const groupedData: { [key: number]: GroupedData } = {}
+
+  data.forEach((item: SensorData) => {
+    const date: Date = new Date(item.updated_at)
+    const roundedTime: number = Math.floor(date.getTime() / interval) * interval
+
+    if (!groupedData[roundedTime]) {
+      groupedData[roundedTime] = {
+        updated_at: date.toLocaleString("en-US", {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        }),
+      }
+    }
+    // Calculate sensor averages
+    Object.keys(item).forEach((key: string) => {
+      if (key !== "updated_at" && key.startsWith("sensor")) {
+        const sensors: GroupedData = groupedData[roundedTime]
+        sensors[key] = Number(sensors[key])
+          ? Math.round((Number(sensors[key]) + Number(item[key])) / 2)
+          : Math.round(Number(item[key]))
+      }
+    })
+  })
+
+  return Object.values(groupedData)
+}

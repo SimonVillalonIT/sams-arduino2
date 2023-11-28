@@ -1,6 +1,7 @@
 "use client"
 
 import { notFound } from "next/navigation"
+
 import useClassroom from "@/hooks/use-classrooms"
 import Classroom from "@/components/device/classroom"
 

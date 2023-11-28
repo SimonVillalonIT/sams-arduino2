@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import UserDeviceModel from "../models/user-device-model.js"
+import UserDeviceModel from "../models/user-device-model.js";
 
 class InvitationController {
   constructor() {}
@@ -37,16 +37,14 @@ class InvitationController {
       }
       if (!userId) {
         // Redirect with a message if the user is not authenticated
-        return res.redirect(
-          `${process.env.CLIENT_DOMAIN}/auth`,
-        );
+        return res.redirect(`${process.env.CLIENT_DOMAIN}/auth`);
       }
       // Verify the token
       const verify = jwt.verify(token, process.env.JWT_SECRET);
       // Handle verification result
       if (verify) {
-          const deviceId = verify.deviceId
-          await UserDeviceModel.create({"device_id":deviceId,"user_id": userId})
+        const deviceId = verify.deviceId;
+        await UserDeviceModel.create({ device_id: deviceId, user_id: userId });
         // If verification is successful, redirect with a success message
         return res.redirect(
           `${process.env.CLIENT_DOMAIN}/dashboard?success?=true`,
@@ -64,20 +62,31 @@ class InvitationController {
     }
   }
 
-  async changePermission (req, res) {
-    const {userId, admin, deviceId} =req.body
-    if(!userId) return res.status(400).json({ok:null, error: "No se especifico ningun Id de usuario"})
-    if(admin === null || admin === undefined) return res.status(400).json({ok:null, error: "No se especifico ningun permiso"})
-    if(!deviceId) return res.status(400).json({ok:null, error: "No se especifico ningun Id de dispositivo"})
+  async changePermission(req, res) {
+    const { userId, admin, deviceId } = req.body;
+    if (!userId)
+      return res
+        .status(400)
+        .json({ ok: null, error: "No se especifico ningun Id de usuario" });
+    if (admin === null || admin === undefined)
+      return res
+        .status(400)
+        .json({ ok: null, error: "No se especifico ningun permiso" });
+    if (!deviceId)
+      return res
+        .status(400)
+        .json({ ok: null, error: "No se especifico ningun Id de dispositivo" });
 
     try {
-        await UserDeviceModel.update({admin}, {where: {"user_id": userId, "device_id": deviceId}})
-        return res.status(204).json({ok:true, error: null})
+      await UserDeviceModel.update(
+        { admin },
+        { where: { user_id: userId, device_id: deviceId } },
+      );
+      return res.status(204).json({ ok: true, error: null });
     } catch (error) {
-        console.log(error)
-        return res.status(500).json({ok: null, error})
+      console.log(error);
+      return res.status(500).json({ ok: null, error });
     }
-
   }
 }
 

@@ -20,10 +20,10 @@ const server = http.createServer(app);
 app.use(morgan("dev"));
 
 app.use(
-    cors({
-        origin: corsMethod,
-        credentials: true,
-    })
+  cors({
+    origin: corsMethod,
+    credentials: true,
+  }),
 );
 
 app.use(express.json());

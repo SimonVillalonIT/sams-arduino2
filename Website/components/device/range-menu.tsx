@@ -9,11 +9,17 @@ import {
   SelectValue,
 } from "../ui/select"
 
-function RangeMenu() {
-  const [loading, setLoading] = React.useState(false)
-  const [interval, setInterval] = React.useState<string>("2000")
+function RangeMenu({
+  interval,
+  handleInterval,
+  loading,
+}: {
+  interval: string
+  handleInterval: (interval: string) => void
+  loading: boolean
+}) {
   return (
-    <Select value={interval} disabled={loading} onValueChange={setInterval}>
+    <Select value={interval} disabled={loading} onValueChange={handleInterval}>
       <SelectTrigger>
         <SelectValue placeholder="Select" />
       </SelectTrigger>
@@ -22,9 +28,11 @@ function RangeMenu() {
           <Loader2 />
         ) : (
           <>
-            <SelectItem value="2000">2 segundos</SelectItem>
-            <SelectItem value="20000">20 segundos</SelectItem>
-            <SelectItem value="1200000">20 minutos</SelectItem>
+            <SelectItem value="2000">Tiempo real</SelectItem>
+            <SelectItem value="300000">5 minutos</SelectItem>
+            <SelectItem value="1800000">30 minutos</SelectItem>
+            <SelectItem value="3600000">1 hora</SelectItem>
+            <SelectItem value="86400000">1 dia</SelectItem>
           </>
         )}
       </SelectContent>

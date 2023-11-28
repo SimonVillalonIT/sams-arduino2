@@ -6,7 +6,10 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon index.js",
-    "start": "node index.js"
+    "start": "node index.js",
+    "lint": "pnpm eslint . test",
+    "lint:fix": "pnpm run lint . --fix",
+    "format": "prettier . --write"
   },
   "keywords": [],
   "author": "Simon Villalon",
@@ -29,6 +32,10 @@
     "socket.io-client": "^4.7.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-import": "^2.25.2",
+    "nodemon": "^2.0.15",
+    "prettier": "^3.1.0"
   }
 }

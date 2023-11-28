@@ -1,8 +1,9 @@
 import { PropsWithChildren } from "react"
 import { Plus } from "lucide-react"
-import { Dialog,DialogTrigger } from "../ui/dialog"
-import { Button } from "../ui/button"
+
 import CreateDialog from "../device/create-dialog"
+import { Button } from "../ui/button"
+import { Dialog, DialogTrigger } from "../ui/dialog"
 
 export default function Container({ children }: PropsWithChildren) {
   return (
@@ -15,9 +16,14 @@ export default function Container({ children }: PropsWithChildren) {
           </p>
         </div>
         <Dialog>
-  <DialogTrigger asChild><Button><Plus />Crear</Button></DialogTrigger>
-  <CreateDialog />
-  </Dialog>
+          <DialogTrigger asChild>
+            <Button>
+              <Plus />
+              Crear
+            </Button>
+          </DialogTrigger>
+          <CreateDialog />
+        </Dialog>
       </div>
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {children}
