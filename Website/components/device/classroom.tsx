@@ -1,15 +1,15 @@
 "use client"
+
 import * as React from "react"
-import { PowerOff, Radio, Settings, UserIcon, Volume1 } from "lucide-react"
+import { Activity, PowerOff, Radio, Settings, Volume1 } from "lucide-react"
 
 import useDeviceGraph from "@/hooks/useDeviceGraph"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import DeviceGraph from "@/components/device/device-graph"
 
+import { GraphFilter } from "./graph-filter"
 import RangeMenu from "./range-menu"
-import { allowedNodeEnvironmentFlags } from "process"
-import api from "@/lib/axios"
 
 function Classroom({
   id,
@@ -34,16 +34,15 @@ function Classroom({
   const filteredSensors = sensors.filter((value) => value !== null) as number[]
   const average =
     filteredSensors.reduce((a, b) => a + b, 0) / filteredSensors.length
-  const { formattedData, interval, handleIntervalChange, loading } = useDeviceGraph(id)
-  const [allowedPeople, setAllowedPeople] = React.useState<number | null>(null)
+  const {
+    formattedData,
+    interval,
+    handleIntervalChange,
+    loading,
+    categories,
+    setCategories,
+  } = useDeviceGraph(id)
 
-  const fetchAllowedPeople = async() => {
-    const {data} = await api.get(`/device/deviceUsers/${id}`)
-    setAllowedPeople(data.data.length + 1)
-    console.log({data:data.data.length + 1})
-  }
-
-  React.useEffect(()=>{fetchAllowedPeople()},[])
   return (
     <Tabs defaultValue="overview">
       <TabsList>
@@ -85,11 +84,16 @@ function Classroom({
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
-                Personas con acceso
+                Filtrar sensores
               </CardTitle>
-              <UserIcon size={24} />
+              <Activity size={24} />
             </CardHeader>
-            <CardContent className="text-2xl font-semibold">{allowedPeople ?? "-"}</CardContent>
+            <CardContent className="text-2xl font-semibold">
+              <GraphFilter
+                categories={categories}
+                setCategories={setCategories}
+              />
+            </CardContent>
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -118,7 +122,7 @@ function Classroom({
               ))}
             </CardContent>
           </Card>
-          <DeviceGraph formattedData={formattedData} />
+          <DeviceGraph categories={categories} formattedData={formattedData} />
         </div>
       </TabsContent>
     </Tabs>
