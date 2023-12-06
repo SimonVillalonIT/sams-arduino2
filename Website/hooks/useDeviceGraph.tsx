@@ -45,14 +45,14 @@ export default function useDeviceGraph(deviceId: string) {
     if (data) {
       if (interval === "2000") {
         setFormattedData(data)
-        setLoading(false)
         setInterval(interval)
+        setLoading(false)
       }
       const result = processData(data, Number(interval))
       if (result.length > 5) {
         setFormattedData(result)
-        setLoading(false)
         setInterval(interval)
+        setLoading(false)
       } else {
         toast({
           title: "No hay suficiente informacion",

@@ -4,8 +4,17 @@ import InvitationController from "../controllers/invitation-controller.js";
 
 const router = Router();
 
+router.get("/validate", (req, res, next) => {
+    const urlToken = req.query.token
+    const token = req.cookies.accessToken
+    if (!token) {
+        res.cookie("invitation", urlToken, { httpOnly: false })
+        return res.redirect("http://localhost:3000/auth")
+    }
+    res.clearCookie("invitation")
+    next()
+}, InvitationController.getLink);
 router.use(requireToken);
-router.get("/validate", InvitationController.getLink);
 router.post("/generate", InvitationController.generateLink);
 router.put("/changePermission", InvitationController.changePermission);
 

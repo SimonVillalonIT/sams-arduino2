@@ -14,17 +14,21 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useToast } from "@/components/ui/use-toast"
 import Graph from "@/components/dashboard/graph"
 import { DatePickerWithRange } from "@/components/date-range-picker"
 
+type DashboardDataType = {
+  noisyClassroom: string
+  soundLevel: number
+  devices: number
+  activeDevices: number
+} | null
+
 const Dashboard = () => {
   const { classrooms, error, isLoading } = useClassrooms()
-  const [data, setData] = useState<{
-    noisyClassroom: string
-    soundLevel: number
-    devices: number
-    activeDevices: number
-  } | null>(null)
+  const { toast } = useToast()
+  const [data, setData] = useState<DashboardDataType>(null)
   const dataCallback = useCallback(async () => {
     try {
       const { data } = await api.get("/data/dashboard")
@@ -33,6 +37,40 @@ const Dashboard = () => {
   }, [data])
   useEffect(() => {
     dataCallback()
+  }, [])
+
+  const invitationCallback = async () => {
+    try {
+      const cookies = document.cookie.split(";")
+      let index = -1
+
+      for (let i = 0; i < cookies.length; i++) {
+        if (cookies[i].includes("invitation=")) {
+          index = i
+          break
+        }
+      }
+
+      if (index === -1) return
+      await api.get(
+        `/invitation/validate?token=${cookies[index].split("=")[1]}`
+      )
+
+      toast({
+        title: "Invitacion aceptada con exito",
+        description:
+          "La invitacion fue aceptada con exito, ahora puede acceder a ese dispositivo",
+      })
+    } catch (error) {
+      toast({
+        title: "Ups! Hubo un error",
+        description:
+          "Hubo un error a la hora de aceptar la invitacion, intentelo nuevamente o solicite un nuevo link de invitacion. Es posible que ya cuente con el dispositivo",
+      })
+    }
+  }
+  useEffect(() => {
+    invitationCallback()
   }, [])
 
   if (isLoading) return <p>Loading...</p>

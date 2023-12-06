@@ -27,7 +27,7 @@ export default function Graph() {
             }).format(new Date(updated_at))
             return {
               Fecha: formattedDate, // La fecha y hora del sensor
-              Decibeles: soundLevel, // El nivel de sonido promedio para esa fecha y hora
+              Decibeles: Math.round(soundLevel), // El nivel de sonido promedio para esa fecha y hora
             }
           }
         )
@@ -38,7 +38,7 @@ export default function Graph() {
     dataCallback()
   }, [])
 
-  if (data)
+  if (data) {
     return (
       <Card className="col-span-4 bg-transparent">
         <Title className="text-3xl font-bold">Aula mas ruidosa</Title>
@@ -51,5 +51,6 @@ export default function Graph() {
         />
       </Card>
     )
+  }
   return <p>loading...</p>
 }
