@@ -31,13 +31,9 @@ class InvitationController {
         try {
             if (!token) {
                 // Redirect with a message if there's no tokenInternal Server Error
-                return res.redirect(
-                    `${process.env.CLIENT_DOMAIN}/dashboard?success=false`,
-                );
-            }
-            if (!userId) {
-                // Redirect with a message if the user is not authenticated
-                return res.redirect(`${process.env.CLIENT_DOMAIN}/auth`);
+                return res.status(400).json({
+                    error: "No se envio ningun token",
+                });
             }
             // Verify the token
             const verify = jwt.verify(token, process.env.JWT_SECRET);
@@ -46,19 +42,13 @@ class InvitationController {
                 const deviceId = verify.deviceId;
                 await UserDeviceModel.create({ device_id: deviceId, user_id: userId });
                 // If verification is successful, redirect with a success message
-                return res.redirect(
-                    `${process.env.CLIENT_DOMAIN}/dashboard?success?=true`,
-                );
+                return res.status(200).json({ ok: true });
             } else {
                 // Handle unsuccessful verification with an error message
-                return res.redirect(
-                    `${process.env.CLIENT_DOMAIN}/dashboard?success=false`,
-                );
+                return res.status(500).json({ error: "Error en la validación" });
             }
         } catch (error) {
-            return res.redirect(
-                `${process.env.CLIENT_DOMAIN}/dashboard?success=false`,
-            );
+            return res.status(500).json({ error: error });
         }
     }
 
@@ -78,7 +68,7 @@ class InvitationController {
                 .json({ ok: null, error: "No se especifico ningun Id de dispositivo" });
 
         try {
-            await UserDeviceModel.update({ admin }, { where: { user_id: userId, device_id: deviceId } }, );
+            await UserDeviceModel.update({ admin }, { where: { user_id: userId, device_id: deviceId } });
             return res.status(204).json({ ok: true, error: null });
         } catch (error) {
             console.log(error);
