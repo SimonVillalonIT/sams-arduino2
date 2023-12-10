@@ -16,6 +16,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Graph from "@/components/dashboard/graph"
 import { DatePickerWithRange } from "@/components/date-range-picker"
+import NoInfo from "@/components/dashboard/no-info"
 
 type DashboardDataType = {
   noisyClassroom: string
@@ -168,6 +169,11 @@ const Dashboard = () => {
         </Tabs>
       </section>
     )
+    if(!data){
+        return (
+        <NoInfo />
+        )
+    }
 }
 
 export default Dashboard
