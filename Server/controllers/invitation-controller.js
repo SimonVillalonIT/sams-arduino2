@@ -16,7 +16,7 @@ class InvitationController {
             expiresIn,
         };
         const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn });
-        const url = `${process.env.DOMAIN}/api/v1/invitation/validate?token=${token}`;
+        const url = `${process.env.CLIENT_DOMAIN}/dashboard/invitation?token=${token}`;
         res.json({ data: { url }, error: null });
     }
 

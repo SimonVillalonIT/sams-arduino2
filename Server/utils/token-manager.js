@@ -3,7 +3,6 @@ import jwt from "jsonwebtoken";
 export const validateToken = (token) => {
   try {
     if (!token) throw new Error("No Bearer");
-    console.log(token);
     jwt.verify(token, process.env.JWT_SECRET);
     return { ok: true, error: null };
   } catch (error) {

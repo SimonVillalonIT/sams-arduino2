@@ -12,7 +12,6 @@ export default function sockets(server) {
   io.on("connection", (socket) => {
     socket.on("user", ({ id }) => {
       usersSockets.set(id, socket);
-      console.log(id);
     });
     socket.on("ping", () => {
       console.log("Received a ping");

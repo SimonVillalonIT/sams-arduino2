@@ -35,7 +35,7 @@ function ChangePermission({
       })
       setPermission(e)
       setLoading(false)
-      toast({ title:"Cambio realizado exitosamente!", description: "Los permisos han sido cambiados exitosamente!" })
+      toast({ title:"Cambiado exitosamente!", description: "Los permisos han sido cambiados exitosamente!" })
     } catch (error) {
       console.log(error)
       toast({

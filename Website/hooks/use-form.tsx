@@ -29,13 +29,13 @@ export function useForm(
     const { data, error } = await handleSubmit(values)
     if (error) {
       setError(error)
+      setIsLoading(false)
       return
     }
     if (data) {
       setId(data.id)
       router.refresh()
     }
-    setIsLoading(false)
   }
   async function onSubmitWithToast(values: z.infer<typeof formSchema>) {
     setIsLoading(true)
@@ -47,6 +47,8 @@ export function useForm(
         description: "A ocurrido un error en la creacion del dispositivo",
         variant: "destructive",
       })
+
+      setIsLoading(false)
       return
     }
     if (data) {
