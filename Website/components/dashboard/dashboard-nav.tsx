@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { Home, LogOut, Radio } from "lucide-react"
+import { Home, LogOut, Radio, Settings } from "lucide-react"
 
 import { handleLogOut } from "@/lib/auth"
 import { cn } from "@/lib/utils"
@@ -17,6 +17,11 @@ export default function DashboardNav() {
       Icon: Radio,
       disabled: false,
       title: "Dispositivos",
+    },{
+      href: "/dashboard/settings",
+      Icon: Settings,
+      disabled: false,
+      title: "Configuraciones",
     },
     {
       href: "/",
