@@ -11,12 +11,12 @@ const regexUUIDv4 =
 
 export const createSchema = z.object({
   deviceId: z
-    .string({ required_error: "El nombre es obligatorio" })
+    .string({ required_error: "El id es obligatorio" })
     .refine((input) => regexUUIDv4.test(input), {
       message: "Debes ingresar un id válido",
     }),
   name: z
-    .string({ required_error: "El id es obligatorio" })
+    .string({ required_error: "El nombre es obligatorio" })
     .min(3, { message: "El nombre debe tener por lo menos 3 caracteres" }),
 })
 

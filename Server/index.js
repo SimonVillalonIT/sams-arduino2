@@ -11,6 +11,7 @@ import authRouter from "./routes/auth-route.js";
 import deviceRouter from "./routes/device-route.js";
 import invitationRouter from "./routes/invitation-route.js";
 import dataRouter from "./routes/data-route.js";
+import settingsRouter from "./routes/settings-route.js";
 import sockets from "./sockets/index.js";
 import "./utils/check-device.js";
 
@@ -23,7 +24,7 @@ app.use(
   cors({
     origin: corsMethod,
     credentials: true,
-  }),
+  })
 );
 
 app.use(express.json());
@@ -33,6 +34,7 @@ app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/device", deviceRouter);
 app.use("/api/v1/invitation", invitationRouter);
 app.use("/api/v1/data", dataRouter);
+app.use("/api/v1/settings", settingsRouter);
 
 await connectDb();
 

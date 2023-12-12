@@ -23,6 +23,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import api from "@/lib/axios"
 
 const formSchema = z
   .object({
@@ -59,8 +60,8 @@ function SettingsPage() {
     },
   })
 
-  const onSubmit = (data: any) => {
-    console.log(data)
+  const onSubmit = (data: {"max-acepted": number, "max-warning": number}) => {
+    api.post("/settings", data)
   }
   return (
     <section>
@@ -75,7 +76,7 @@ function SettingsPage() {
         </p>
       </div>
       <Separator className="my-6" />
-      <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
+      <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0 w-fit">
         <Card>
           <CardHeader>
             <CardTitle>Niveles aceptados</CardTitle>
@@ -83,11 +84,10 @@ function SettingsPage() {
               Administra los niveles que consideres aceptados.
             </CardDescription>
           </CardHeader>
-          <CardContent className="grid gap-6 grid-cols-2">
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-8"
+                className="gap-4 grid grid-cols-2 p-6"
               >
                 <FormField
                   control={form.control}
@@ -128,7 +128,6 @@ function SettingsPage() {
                 </Button>
               </form>
             </Form>
-          </CardContent>
         </Card>
       </div>
     </section>

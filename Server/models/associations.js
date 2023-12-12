@@ -2,7 +2,7 @@ import User from "./user-model.js";
 import Device from "./device-model.js";
 import UserDevice from "./user-device-model.js";
 import Historic from "./historic-model.js";
-import Settings from "./settings-model.js"
+import Settings from "./settings-model.js";
 
 //Relacion usuario - dispositivo
 Device.belongsToMany(User, { through: { model: UserDevice, unique: true } });
@@ -13,5 +13,5 @@ Device.hasMany(Historic);
 Historic.belongsTo(Device);
 
 //Relacion usuario - configuraciones
-User.hasMany(Settings)
-Settings.belongsTo(User)
+User.hasMany(Settings);
+Settings.belongsTo(User);
