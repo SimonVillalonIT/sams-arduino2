@@ -1,21 +1,67 @@
 "use client"
 
+import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "components/ui/button"
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "components/ui/card"
 import { Separator } from "components/ui/separator"
-import { Switch } from "components/ui/switch"
+import { useForm } from "react-hook-form"
+import * as z from "zod"
 
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+
+const formSchema = z
+  .object({
+    "max-acepted": z
+      .number({
+        required_error: "¡No puede estar vacio!",
+        invalid_type_error: "¡Debes ingresar un numero!",
+      })
+      .min(1, {
+        message: "¡El valor mínimo es 1!",
+      })
+      .max(60, "¡El valor máximo es 60!"),
+    "max-warning": z
+      .number({
+        required_error: "¡No puede estar vacio!",
+        invalid_type_error: "¡Debes ingresar un numero!",
+      })
+      .min(10, {
+        message: "¡El valor mínimo es 10!",
+      })
+      .max(70, "¡El valor máximo es 70!"),
+  })
+  .refine((data) => data["max-acepted"] < data["max-warning"], {
+    message: "El máximo aceptable no puede superar al maximo de advertencia",
+    path: ["max-acepted", "max-warning"],
+  })
 
 function SettingsPage() {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      "max-acepted": 20,
+      "max-warning": 30,
+    },
+  })
+
+  const onSubmit = (data: any) => {
+    console.log(data)
+  }
   return (
     <section>
       <div className="space-y-0.5">
@@ -38,38 +84,51 @@ function SettingsPage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="grid gap-6 grid-cols-2">
-            <div className="flex flex-col items-center justify-between space-x-2">
-              <Label htmlFor="necessary" className="flex flex-col ">
-                <span>Strictly Necessary</span>
-              </Label>
-              <Input
-                name="max-acepted"
-                max={200}
-                min={0}
-                type="number"
-                defaultValue={30}
-              />
-            </div>
-
-            <div className="flex flex-col items-center justify-between space-y-2 space-x-2 ">
-              <Label htmlFor="functional" className="flex flex-col ">
-                <span>Functional Cookies</span>
-              </Label>
-              <Input
-                name="max-medium"
-                max={200}
-                min={0}
-                type="number"
-                value={30}
-                defaultValue={30}
-              />
-            </div>
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-8"
+              >
+                <FormField
+                  control={form.control}
+                  name="max-acepted"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col items-center justify-between space-x-2">
+                      <FormLabel>Máximo aceptable</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          type="number"
+                          onChange={(e) => {
+                            field.onChange(parseInt(e.target.value))
+                          }}
+                        />
+                      </FormControl>
+                      <FormDescription />
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="max-warning"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col items-center justify-between space-x-2">
+                      <FormLabel>Máximo aceptable</FormLabel>
+                      <FormControl>
+                        <Input type="number" {...field} />
+                      </FormControl>
+                      <FormDescription />
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button variant="outline" className="w-full">
+                  Guardar configuraciones
+                </Button>
+              </form>
+            </Form>
           </CardContent>
-          <CardFooter>
-            <Button variant="outline" className="w-full">
-              Save preferences
-            </Button>
-          </CardFooter>
         </Card>
       </div>
     </section>
