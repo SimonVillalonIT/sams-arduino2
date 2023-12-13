@@ -1,11 +1,5 @@
-import {
-  AlertCircle,
-  Annoyed,
-  Frown,
-  LucideIcon,
-  PowerOff,
-  Smile,
-} from "lucide-react"
+import useSettingsStore from "@/stores/settings-store"
+import { AlertCircle, Annoyed, Frown, PowerOff, Smile } from "lucide-react"
 
 import { Card, CardContent, CardTitle } from "@/components/ui/card"
 
@@ -30,15 +24,17 @@ const ClassroomCard = ({
     (sensor) => sensor !== undefined
   ) as number[]
   const noisiest = Math.max(...cleanSensors)
+  const { settings } = useSettingsStore()
   return (
     <HoverCard>
       <HoverCardTrigger asChild>
         <Card className="py-6 w-full h-80 relative flex flex-col justify-between items-center">
           {admin ? <OptionsMenu.admin id={id} /> : <OptionsMenu id={id} />}
           <CardContent className="grid grid-rows-3 justify-center items-center h-full">
-            {noisiest >= 45 ? (
+            {noisiest >= settings["max-warning"] ? (
               <Frown size={48} className="row-start-2" />
-            ) : noisiest <= 45 && noisiest >= 20 ? (
+            ) : noisiest <= settings["max-warning"] &&
+              noisiest >= settings["max-acepted"] ? (
               <Annoyed size={48} className="row-start-2" />
             ) : noisiest >= 1 ? (
               <Smile size={48} className="row-start-2" />

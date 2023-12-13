@@ -8,14 +8,17 @@ interface Store {
 }
 
 interface Actions {
-  fetch: () => Promise<void>
   setSettings: (s: { "max-warning": number; "max-acepted": number }) => void
+  fetch: () => Promise<void>
 }
 
 const useSettingsStore = create(
   persist<Store & Actions>(
-    (set) => ({
+    (set, get) => ({
       settings: { "max-acepted": 20, "max-warning": 30 },
+      setSettings: (s) => {
+        set((state) => ({ ...state, settings: s }))
+      },
       fetch: async () => {
         try {
           const { data } = await api.get<{
@@ -28,20 +31,11 @@ const useSettingsStore = create(
               userId: string
             }
           }>("/settings")
-          set((state) => ({
-            ...state,
-            settings: {
-              "max-acepted": data.data.max_acepted,
-              "max-warning": data.data.max_warning,
-            },
-          }))
+          get().setSettings({"max-acepted":data.data["max_acepted"], "max-warning": data.data["max_warning"]})
         } catch (error) {
           console.log(error)
         }
-      },
-      setSettings: (s) => {
-        set((state) => ({ ...state, settings: s }))
-      },
+      }
     }),
     { name: "settings-store" }
   )

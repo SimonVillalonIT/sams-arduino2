@@ -11,23 +11,31 @@ class SettingsController {
     const userId = req.uid;
     if (req.body["max-warning"] && req.body["max-acepted"]) {
       try {
+        const existingSetting = await SettingsModel.findOne({
+          where: {
+            userId,
+          },
+        });
+        if (existingSetting) {
+          const update = await SettingsModel.update(
+            {
+              max_acepted: req.body["max-acepted"],
+              max_warning: req.body["max-warning"],
+            },
+            {
+              where: { id: existingSetting.dataValues.id },
+            }
+          );
+          console.log(update);
+          return res.status(200).json({ ok: true });
+        }
         await SettingsModel.create({
           userId,
-          "max-warning": req.body["max-warning"],
-          "max-acepted": req.body["max-acepted"],
+          ...req.body,
         });
         return res.status(200).json({ ok: true });
       } catch (error) {
-        if (error.message === "unique") {
-          SettingsModel.update(
-            {
-              "max-warning": req.body["max-warning"],
-              "max-acepted": req.body["max-acepted"],
-            },
-            { where: {userId} },
-          );
-          return res.status(200).json({ ok: true });
-        }
+        console.log(error);
         return res.status(500).json({ error });
       }
     }

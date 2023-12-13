@@ -1,7 +1,6 @@
 "use client"
 
-import { useState } from "react"
-import { zodResolver } from "@hookform/resolvers/zod"
+import useSettingsStore from "@/stores/settings-store"
 import { Button } from "components/ui/button"
 import {
   Card,
@@ -11,10 +10,8 @@ import {
 } from "components/ui/card"
 import { Separator } from "components/ui/separator"
 import { Loader2 } from "lucide-react"
-import { useForm } from "react-hook-form"
-import * as z from "zod"
 
-import api from "@/lib/axios"
+import { useSettings } from "@/hooks/use-settings"
 import {
   Form,
   FormControl,
@@ -25,59 +22,10 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { useToast } from "@/components/ui/use-toast"
-
-const formSchema = z
-  .object({
-    "max-acepted": z
-      .number({
-        required_error: "¡No puede estar vacio!",
-        invalid_type_error: "¡Debes ingresar un numero!",
-      })
-      .min(1, {
-        message: "¡El valor mínimo es 1!",
-      })
-      .max(60, "¡El valor máximo es 60!"),
-    "max-warning": z
-      .number({
-        required_error: "¡No puede estar vacio!",
-        invalid_type_error: "¡Debes ingresar un numero!",
-      })
-      .min(10, {
-        message: "¡El valor mínimo es 10!",
-      })
-      .max(70, "¡El valor máximo es 70!"),
-  })
-  .refine((data) => data["max-acepted"] <= data["max-warning"], {
-    message: "El máximo aceptable no puede superar al maximo de advertencia",
-    path: ["max-acepted"],
-  })
 
 function SettingsPage() {
-  const { toast } = useToast()
-  const [loading, setLoading] = useState(false)
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      "max-acepted": 20,
-      "max-warning": 30,
-    },
-  })
-
-  const onSubmit = (data: { "max-acepted": number; "max-warning": number }) => {
-    setLoading(true)
-    try {
-      api.post("/settings", data)
-      setLoading(false)
-      toast({ description: "¡Se actualizaron las configuraciones con exito!" })
-    } catch (error) {
-      setLoading(false)
-      toast({
-        title: "Ups! Hubo un error al actualizar las configuraciones",
-        variant: "destructive",
-      })
-    }
-  }
+  const { form, loading, onSubmit } = useSettings()
+  const { setSettings } = useSettingsStore()
   return (
     <section>
       <div className="space-y-0.5">
@@ -116,6 +64,10 @@ function SettingsPage() {
                         type="number"
                         onChange={(e) => {
                           field.onChange(parseInt(e.target.value))
+                          setSettings({
+                            "max-acepted": parseInt(e.target.value),
+                            "max-warning": form.getValues("max-warning"),
+                          })
                         }}
                       />
                     </FormControl>
@@ -136,6 +88,10 @@ function SettingsPage() {
                         {...field}
                         onChange={(e) => {
                           field.onChange(parseInt(e.target.value))
+                          setSettings({
+                            "max-acepted": form.getValues("max-acepted"),
+                            "max-warning": parseInt(e.target.value),
+                          })
                         }}
                       />
                     </FormControl>

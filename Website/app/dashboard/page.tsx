@@ -27,7 +27,6 @@ type DashboardDataType = {
 } | null
 
 const Dashboard = () => {
-  const { fetch } = useSettingsStore()
   const { classrooms, isLoading } = useClassrooms()
   const [data, setData] = useState<DashboardDataType>(null)
   const dataCallback = useCallback(async () => {
@@ -37,7 +36,6 @@ const Dashboard = () => {
     } catch (error) {}
   }, [data])
   useEffect(() => {
-    fetch()
     dataCallback()
   }, [])
 

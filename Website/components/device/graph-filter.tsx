@@ -3,7 +3,7 @@
 import { Dispatch, SetStateAction } from "react"
 import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu"
 
-import { Categories } from "@/hooks/useDeviceGraph"
+import { Categories } from "@/hooks/use-device-graph"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,

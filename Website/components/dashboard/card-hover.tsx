@@ -1,4 +1,5 @@
 import React from "react"
+import useSettingsStore from "@/stores/settings-store"
 
 import { HoverCardContent } from "@/components/ui/hover-card"
 
@@ -9,11 +10,14 @@ const CardHover = ({
   sensor4,
   sensor5,
   sensor6,
-}) => {
+}: any) => {
+  const { settings } = useSettingsStore()
   const sensors = [sensor1, sensor2, sensor3, sensor4, sensor5, sensor6]
+
   const condition = (v: number) => {
-    if (v >= 45) return "text-destructive"
-    if (v <= 44 && v >= 20) return "text-yellow-300"
+    if (v >= settings["max-warning"]) return "text-destructive"
+    if (v <= settings["max-warning"] && v >= settings["max-acepted"])
+      return "text-yellow-300"
     if (v <= 19) return "text-primary"
   }
   return (
