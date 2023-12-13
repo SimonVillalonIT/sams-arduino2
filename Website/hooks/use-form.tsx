@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import useUserStore from "@/stores/userStore"
+import useUserStore from "@/stores/user-store"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm as useFormHook } from "react-hook-form"
 import * as z from "zod"

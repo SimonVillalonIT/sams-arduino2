@@ -1,6 +1,7 @@
 "use client"
 
 import { useCallback, useEffect, useState } from "react"
+import useSettingsStore from "@/stores/settings-store"
 import { Volume1 } from "lucide-react"
 
 import api from "@/lib/axios"
@@ -15,8 +16,8 @@ import {
 } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Graph from "@/components/dashboard/graph"
-import { DatePickerWithRange } from "@/components/date-range-picker"
 import NoInfo from "@/components/dashboard/no-info"
+import { DatePickerWithRange } from "@/components/date-range-picker"
 
 type DashboardDataType = {
   noisyClassroom: string
@@ -26,6 +27,7 @@ type DashboardDataType = {
 } | null
 
 const Dashboard = () => {
+  const { fetch } = useSettingsStore()
   const { classrooms, isLoading } = useClassrooms()
   const [data, setData] = useState<DashboardDataType>(null)
   const dataCallback = useCallback(async () => {
@@ -35,6 +37,7 @@ const Dashboard = () => {
     } catch (error) {}
   }, [data])
   useEffect(() => {
+    fetch()
     dataCallback()
   }, [])
 
@@ -169,11 +172,9 @@ const Dashboard = () => {
         </Tabs>
       </section>
     )
-    if(!data){
-        return (
-        <NoInfo />
-        )
-    }
+  if (!data) {
+    return <NoInfo />
+  }
 }
 
 export default Dashboard

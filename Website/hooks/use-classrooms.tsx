@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import useUserStore from "@/stores/userStore"
+import useUserStore from "@/stores/user-store"
 import io from "socket.io-client"
 
 import api from "@/lib/axios"

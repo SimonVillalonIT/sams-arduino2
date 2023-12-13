@@ -1,8 +1,8 @@
 import { db } from "../database/connectdb.js";
 
 class DataModel {
-    constructor(){}
-    async getDashboardData(userId){
+  constructor() {}
+  async getDashboardData(userId) {
     const query = `
     SELECT
         d.name as noisyClassroom,
@@ -29,10 +29,10 @@ class DataModel {
     const [results] = await db.query(query, {
       replacements: [userId, userId],
     });
-    return results[0]
-}
-async getGraphData(userId){
-const query = `
+    return results[0];
+  }
+  async getGraphData(userId) {
+    const query = `
     SELECT
         h.updated_at,
         (h.sensor1 + h.sensor2 + h.sensor3 + h.sensor4 + h.sensor5 + h.sensor6) / 6 as 'soundLevel'
@@ -61,19 +61,18 @@ const query = `
       replacements: [userId],
     });
 
-    return results
-}
+    return results;
+  }
 
-    async getDeviceGraphData(id){
+  async getDeviceGraphData(id) {
     const query =
       "SELECT sensor1, sensor2, sensor3, sensor4,sensor5,sensor6,updated_at FROM historic h WHERE h.device_id = ?";
     const [results] = await db.query(query, {
       replacements: [id],
     });
 
-    return results
-
-    }
+    return results;
+  }
 }
 
-export default new DataModel
+export default new DataModel();

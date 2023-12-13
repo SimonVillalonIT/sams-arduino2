@@ -22,19 +22,19 @@ const Settings = db.define("settings", {
   },
 });
 
-Settings.afterValidate("unique", async (doc, opt) => {
+Settings.afterValidate("unique", async (doc) => {
   // Verificar si el campo userId existe en el documento validado
-  if (doc && doc.user_id) {
+  if (doc && doc.dataValues.userId) {
     // Buscar si ya existe algún registro con el mismo userId
     const existingSetting = await Settings.findOne({
       where: {
-        userId: doc.user_id,
+        userId: doc.dataValues.userId,
       },
     });
-
-    // Si ya existe un registro con el mismo userId, generar un error de validación
-    if (existingSetting && existingSetting.id !== doc.id) {
-      throw new Error("El userId debe ser único");
+    // Si ya existe un registro con el mismo userId, generar un error de
+    // validación
+    if (existingSetting) {
+      throw new Error("unique");
       // Puedes personalizar el mensaje de error según tus necesidades
     }
   }

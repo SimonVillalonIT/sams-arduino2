@@ -74,12 +74,10 @@ class DeviceController {
         return res
           .status(200)
           .json({ data: data.dataValues.devices, error: null });
-      return res
-        .status(404)
-        .json({
-          data: null,
-          error: "El usuario no tiene dispositivos asociados",
-        });
+      return res.status(404).json({
+        data: null,
+        error: "El usuario no tiene dispositivos asociados",
+      });
     } catch (error) {
       console.log(error);
       return res.status(500).json({ data: null, error });
@@ -104,12 +102,10 @@ class DeviceController {
         return res
           .status(200)
           .json({ data: data.dataValues.users, error: null });
-      return res
-        .status(404)
-        .json({
-          data: null,
-          error: "El dispositivo no tiene usuarios asociados",
-        });
+      return res.status(404).json({
+        data: null,
+        error: "El dispositivo no tiene usuarios asociados",
+      });
     } catch (error) {
       console.log(error);
       return res.status(500).json({ data: null, error });

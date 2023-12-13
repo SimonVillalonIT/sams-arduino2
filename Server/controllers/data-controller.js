@@ -4,7 +4,7 @@ class DataController {
 
   async getDashboard(req, res) {
     const userId = req.uid;
-    const data = await DataModel.getDashboardData(userId)
+    const data = await DataModel.getDashboardData(userId);
     res.json({
       data,
       error: null,
@@ -13,8 +13,8 @@ class DataController {
 
   async getGraph(req, res) {
     const userId = req.uid;
-    const data = await DataModel.getGraphData(userId)
-        res.json({
+    const data = await DataModel.getGraphData(userId);
+    res.json({
       data,
       error: null,
     });
@@ -22,8 +22,8 @@ class DataController {
 
   async getDeviceGraph(req, res) {
     const { id } = req.params;
-      const data = await DataModel.getDeviceGraphData(id)
-      res.json({
+    const data = await DataModel.getDeviceGraphData(id);
+    res.json({
       data,
       error: null,
     });

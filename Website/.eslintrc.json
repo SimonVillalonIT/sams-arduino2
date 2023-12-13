@@ -9,5 +9,6 @@
   ],
   "rules": {
     "prettier/prettier": "warn" // Or "error" if you prefer
+    "@next/next/no-html-link-for-pages": ["warn", "./app/"]
   }
 }
