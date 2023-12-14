@@ -19,6 +19,8 @@ HTTPClient httpClient;
 AsyncWebServer server(80);
 DynamicJsonDocument device(1024);
 
+const int pinSensorSonido = 27;
+
 void fsInit() {
   /* Inicializar LittleFS normalmente. Si falla,
     intentar hacerlo con autoformateo */
@@ -480,6 +482,12 @@ void setup() {
 }
 
 void loop() {
+  int valorSensor1 = analogRead(pinSensorSonido); // Leer el valor analógico del sensor
+
+  // Mapear el valor del sensor a un rango entre 0 y 60 (máximo)
+  int nivelSonido1 = map(valorSensor1, 0, 1023, 0, 60);
+
+  Serial.println(nivelSonido1);
   // Esperar hasta que tenga conexión WiFi
   if (WiFi.status() != WL_CONNECTED) {
     delay(100);
@@ -493,7 +501,7 @@ void loop() {
   }
 
   // Example array of sensor data
-  int sensorData[] = { random(500), random(500), random(500), random(500), random(500), random(500) };
+  int sensorData[] = { nivelSonido1, random(500), random(500), random(500), random(500), random(500) };
   Serial.println(random(500));
   // Initialize the HTTP client
   HTTPClient client;
