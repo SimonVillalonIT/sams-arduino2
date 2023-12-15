@@ -7,6 +7,11 @@ type User = {
   updatedAt: string
 }
 
+type Sensor = {
+    value: number,
+    position: number
+}
+
 type Classroom = {
   id: string
   name: string
@@ -17,10 +22,10 @@ type Classroom = {
 }
 
 type ClassroomWithData = Classroom & {
-  sensor1?: number
-  sensor2?: number
-  sensor3?: number
-  sensor4?: number
-  sensor5?: number
-  sensor6?: number
+  sensor1?: Sensor
+  sensor2?: Sensor
+  sensor3?: Sensor
+  sensor4?: Sensor
+  sensor5?: Sensor
+  sensor6?: Sensor
 }

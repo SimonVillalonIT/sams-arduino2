@@ -54,7 +54,7 @@ function SettingsPage() {
             >
               <FormField
                 control={form.control}
-                name="max-acepted"
+                name="max-accepted"
                 render={({ field }) => (
                   <FormItem className="flex flex-col col-span-2 items-center justify-between space-x-2">
                     <FormLabel>Máximo aceptable</FormLabel>
@@ -64,10 +64,6 @@ function SettingsPage() {
                         type="number"
                         onChange={(e) => {
                           field.onChange(parseInt(e.target.value))
-                          setSettings({
-                            "max-acepted": parseInt(e.target.value),
-                            "max-warning": form.getValues("max-warning"),
-                          })
                         }}
                       />
                     </FormControl>
@@ -88,10 +84,6 @@ function SettingsPage() {
                         {...field}
                         onChange={(e) => {
                           field.onChange(parseInt(e.target.value))
-                          setSettings({
-                            "max-acepted": form.getValues("max-acepted"),
-                            "max-warning": parseInt(e.target.value),
-                          })
                         }}
                       />
                     </FormControl>

@@ -9,22 +9,26 @@ import { settingsSchema } from "@/lib/settings"
 import { useToast } from "@/components/ui/use-toast"
 
 export function useSettings() {
-  const { settings } = useSettingsStore()
+  const { settings, setSettings } = useSettingsStore()
 
   const { toast } = useToast()
   const [loading, setLoading] = useState(false)
   const form = useForm<z.infer<typeof settingsSchema>>({
     resolver: zodResolver(settingsSchema),
     defaultValues: {
-      "max-acepted": settings["max-acepted"],
+      "max-accepted": settings["max-accepted"],
       "max-warning": settings["max-warning"],
     },
   })
 
-  const onSubmit = (data: { "max-acepted": number; "max-warning": number }) => {
+  const onSubmit = (data: {
+    "max-accepted": number
+    "max-warning": number
+  }) => {
     setLoading(true)
     try {
       api.post("/settings", data)
+      setSettings(data)
       setLoading(false)
       toast({ description: "¡Se actualizaron las configuraciones con exito!" })
     } catch (error) {

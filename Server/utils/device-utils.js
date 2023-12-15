@@ -14,3 +14,22 @@ export const validBody = (obj) => {
     bodyKeys.length === expectedKeys.length
   );
 };
+
+export function sensorWithPosition(positions, values) {
+  const resultado = {};
+  resultado["id"] = values.id
+  positions.forEach(sensor => {
+    const { index, position } = sensor.dataValues;
+    const sensorName = `sensor${index}`;
+
+    if (values.hasOwnProperty(sensorName)) {
+      resultado[sensorName] = {
+        value: values[sensorName],
+        position: position
+      };
+    }
+  });
+
+  return resultado;
+}
+

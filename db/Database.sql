@@ -1,8 +1,8 @@
--- MariaDB dump 10.19-11.1.2-MariaDB, for Linux (x86_64)
+-- MariaDB dump 10.19-11.2.2-MariaDB, for Linux (x86_64)
 --
 -- Host: localhost    Database: sams
 -- ------------------------------------------------------
--- Server version	11.1.2-MariaDB
+-- Server version	11.2.2-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -39,8 +39,7 @@ CREATE TABLE `device` (
 LOCK TABLES `device` WRITE;
 /*!40000 ALTER TABLE `device` DISABLE KEYS */;
 INSERT INTO `device` VALUES
-('11890105-0a63-4c66-b2a0-e96548d7cfc4',NULL,0,'2023-11-05 20:40:29','2023-11-05 20:40:29'),
-('5c2f870f-eba5-4ea7-a439-0b5c624ca684','Prueba4',0,'2023-11-08 22:39:35','2023-11-12 14:47:36');
+('0d59f619-add2-463e-b3f1-d1bf41b2c2ba','Prueba5',0,'2023-12-10 01:05:04','2023-12-10 01:05:21');
 /*!40000 ALTER TABLE `device` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -65,7 +64,7 @@ CREATE TABLE `historic` (
   PRIMARY KEY (`id`),
   KEY `device_id` (`device_id`),
   CONSTRAINT `historic_ibfk_1` FOREIGN KEY (`device_id`) REFERENCES `device` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -74,75 +73,52 @@ CREATE TABLE `historic` (
 
 LOCK TABLES `historic` WRITE;
 /*!40000 ALTER TABLE `historic` DISABLE KEYS */;
-INSERT INTO `historic` VALUES
-(1,203,84,12,131,54,123,'2023-11-11 01:11:56','2023-11-11 01:11:56','5c2f870f-eba5-4ea7-a439-0b5c624ca684'),
-(2,203,84,12,131,54,123,'2023-11-11 01:25:10','2023-11-11 01:25:10','5c2f870f-eba5-4ea7-a439-0b5c624ca684'),
-(3,203,84,12,131,54,123,'2023-11-11 01:26:27','2023-11-11 01:26:27','5c2f870f-eba5-4ea7-a439-0b5c624ca684'),
-(4,203,84,12,131,54,123,'2023-11-11 01:30:48','2023-11-11 01:30:48','5c2f870f-eba5-4ea7-a439-0b5c624ca684'),
-(5,203,84,12,131,54,123,'2023-11-11 01:32:01','2023-11-11 01:32:01','5c2f870f-eba5-4ea7-a439-0b5c624ca684'),
-(6,203,84,12,131,54,123,'2023-11-11 01:33:29','2023-11-11 01:33:29','5c2f870f-eba5-4ea7-a439-0b5c624ca684'),
-(7,203,84,12,131,54,123,'2023-11-11 01:34:48','2023-11-11 01:34:48','5c2f870f-eba5-4ea7-a439-0b5c624ca684'),
-(8,203,84,12,131,54,123,'2023-11-11 01:35:25','2023-11-11 01:35:25','5c2f870f-eba5-4ea7-a439-0b5c624ca684'),
-(9,203,84,12,131,54,123,'2023-11-11 01:35:43','2023-11-11 01:35:43','5c2f870f-eba5-4ea7-a439-0b5c624ca684'),
-(10,203,84,12,131,54,123,'2023-11-11 01:39:00','2023-11-11 01:39:00','5c2f870f-eba5-4ea7-a439-0b5c624ca684'),
-(11,203,84,12,131,54,123,'2023-11-11 01:39:15','2023-11-11 01:39:15','5c2f870f-eba5-4ea7-a439-0b5c624ca684'),
-(12,203,84,12,131,54,123,'2023-11-11 01:39:32','2023-11-11 01:39:32','5c2f870f-eba5-4ea7-a439-0b5c624ca684'),
-(13,203,84,12,131,54,123,'2023-11-11 01:39:46','2023-11-11 01:39:46','5c2f870f-eba5-4ea7-a439-0b5c624ca684'),
-(14,203,84,12,131,54,123,'2023-11-11 01:40:28','2023-11-11 01:40:28','5c2f870f-eba5-4ea7-a439-0b5c624ca684'),
-(15,203,84,12,131,54,123,'2023-11-11 01:41:02','2023-11-11 01:41:02','5c2f870f-eba5-4ea7-a439-0b5c624ca684'),
-(16,203,84,12,131,54,123,'2023-11-11 01:41:51','2023-11-11 01:41:51','5c2f870f-eba5-4ea7-a439-0b5c624ca684'),
-(17,203,84,12,131,54,123,'2023-11-11 01:41:58','2023-11-11 01:41:58','5c2f870f-eba5-4ea7-a439-0b5c624ca684'),
-(18,203,84,12,131,54,123,'2023-11-11 01:44:15','2023-11-11 01:44:15','5c2f870f-eba5-4ea7-a439-0b5c624ca684'),
-(19,203,84,12,131,54,123,'2023-11-11 01:45:01','2023-11-11 01:45:01','5c2f870f-eba5-4ea7-a439-0b5c624ca684'),
-(20,203,84,12,131,54,123,'2023-11-11 01:45:45','2023-11-11 01:45:45','5c2f870f-eba5-4ea7-a439-0b5c624ca684'),
-(21,203,84,12,131,54,123,'2023-11-11 01:47:29','2023-11-11 01:47:29','5c2f870f-eba5-4ea7-a439-0b5c624ca684'),
-(22,203,84,12,131,54,123,'2023-11-11 01:48:49','2023-11-11 01:48:49','5c2f870f-eba5-4ea7-a439-0b5c624ca684'),
-(23,203,84,12,131,54,123,'2023-11-11 14:26:10','2023-11-11 14:26:10','5c2f870f-eba5-4ea7-a439-0b5c624ca684'),
-(24,203,84,12,131,54,123,'2023-11-12 13:59:45','2023-11-12 13:59:45','5c2f870f-eba5-4ea7-a439-0b5c624ca684'),
-(25,203,84,12,131,54,123,'2023-11-12 14:03:52','2023-11-12 14:03:52','5c2f870f-eba5-4ea7-a439-0b5c624ca684'),
-(26,203,84,12,131,54,123,'2023-11-12 14:11:47','2023-11-12 14:11:47','5c2f870f-eba5-4ea7-a439-0b5c624ca684'),
-(27,203,84,12,131,54,123,'2023-11-12 14:13:12','2023-11-12 14:13:12','5c2f870f-eba5-4ea7-a439-0b5c624ca684'),
-(28,203,84,12,131,54,123,'2023-11-12 14:13:27','2023-11-12 14:13:27','5c2f870f-eba5-4ea7-a439-0b5c624ca684'),
-(29,203,84,12,131,54,123,'2023-11-12 14:13:31','2023-11-12 14:13:31','5c2f870f-eba5-4ea7-a439-0b5c624ca684'),
-(30,203,84,12,131,54,123,'2023-11-12 14:13:35','2023-11-12 14:13:35','5c2f870f-eba5-4ea7-a439-0b5c624ca684'),
-(31,203,84,12,131,54,123,'2023-11-12 14:13:39','2023-11-12 14:13:39','5c2f870f-eba5-4ea7-a439-0b5c624ca684'),
-(32,203,84,12,131,54,123,'2023-11-12 14:13:42','2023-11-12 14:13:42','5c2f870f-eba5-4ea7-a439-0b5c624ca684'),
-(33,203,84,12,131,54,123,'2023-11-12 14:13:45','2023-11-12 14:13:45','5c2f870f-eba5-4ea7-a439-0b5c624ca684'),
-(34,203,84,12,131,54,123,'2023-11-12 14:13:48','2023-11-12 14:13:48','5c2f870f-eba5-4ea7-a439-0b5c624ca684'),
-(35,203,84,12,131,54,123,'2023-11-12 14:13:51','2023-11-12 14:13:51','5c2f870f-eba5-4ea7-a439-0b5c624ca684'),
-(36,203,84,12,131,54,123,'2023-11-12 14:44:10','2023-11-12 14:44:10','5c2f870f-eba5-4ea7-a439-0b5c624ca684'),
-(37,203,84,12,131,54,123,'2023-11-12 14:47:30','2023-11-12 14:47:30','5c2f870f-eba5-4ea7-a439-0b5c624ca684');
 /*!40000 ALTER TABLE `historic` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `notification`
+-- Table structure for table `settings`
 --
 
-DROP TABLE IF EXISTS `notification`;
+DROP TABLE IF EXISTS `settings`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `notification` (
+CREATE TABLE `settings` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `accepted` tinyint(1) DEFAULT 0,
-  `user_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `device_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `max_warning` int(11) NOT NULL DEFAULT 30,
+  `max_accepted` int(11) NOT NULL DEFAULT 20,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
+  `user_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_user_device` (`user_id`,`device_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `settings_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `notification`
+-- Dumping data for table `settings`
 --
 
-LOCK TABLES `notification` WRITE;
-/*!40000 ALTER TABLE `notification` DISABLE KEYS */;
-INSERT INTO `notification` VALUES
-(7,1,'0f2cfe11-6793-409d-8a47-7ef607c18e7e','11890105-0a63-4c66-b2a0-e96548d7cfc4','2023-11-05 20:53:23','2023-11-05 21:36:36');
-/*!40000 ALTER TABLE `notification` ENABLE KEYS */;
+LOCK TABLES `settings` WRITE;
+/*!40000 ALTER TABLE `settings` DISABLE KEYS */;
+INSERT INTO `settings` VALUES
+(1,30,20,'2023-12-12 19:54:49','2023-12-12 19:54:49',NULL),
+(2,30,20,'2023-12-12 19:54:50','2023-12-12 19:54:50',NULL),
+(3,30,20,'2023-12-12 19:54:51','2023-12-12 19:54:51',NULL),
+(4,30,20,'2023-12-12 19:54:52','2023-12-12 19:54:52',NULL),
+(5,30,20,'2023-12-12 19:56:22','2023-12-12 19:56:22','5752ae60-f688-4c5a-a004-6c70083270fc'),
+(6,30,20,'2023-12-12 19:57:12','2023-12-12 19:57:12','5752ae60-f688-4c5a-a004-6c70083270fc'),
+(7,30,20,'2023-12-12 19:58:10','2023-12-12 19:58:10','5752ae60-f688-4c5a-a004-6c70083270fc'),
+(8,30,20,'2023-12-12 19:59:17','2023-12-12 19:59:17','5752ae60-f688-4c5a-a004-6c70083270fc'),
+(9,30,20,'2023-12-12 20:01:01','2023-12-12 20:01:01','5752ae60-f688-4c5a-a004-6c70083270fc'),
+(10,30,20,'2023-12-12 20:01:14','2023-12-12 20:01:14','5752ae60-f688-4c5a-a004-6c70083270fc'),
+(11,30,20,'2023-12-12 20:02:19','2023-12-12 20:02:19','5752ae60-f688-4c5a-a004-6c70083270fc'),
+(12,30,20,'2023-12-12 20:02:50','2023-12-12 20:02:50','5752ae60-f688-4c5a-a004-6c70083270fc'),
+(13,30,20,'2023-12-12 20:03:09','2023-12-12 20:03:09','5752ae60-f688-4c5a-a004-6c70083270fc'),
+(14,30,20,'2023-12-12 20:06:44','2023-12-12 20:06:44','5752ae60-f688-4c5a-a004-6c70083270fc'),
+(15,30,20,'2023-12-12 20:06:54','2023-12-12 20:06:54','5752ae60-f688-4c5a-a004-6c70083270fc');
+/*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -154,11 +130,11 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user` (
   `id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -171,9 +147,10 @@ CREATE TABLE `user` (
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` VALUES
-('0f2cfe11-6793-409d-8a47-7ef607c18e7e','simonvillalon9@gmail.com','$2a$10$yoOoqkKIyOZ4u2lqtFMxpur08Suf9Qj19d2OJ1NoqQtGQtdH/50Mq','2023-11-05 20:38:57','2023-11-05 20:38:57','Simonvi'),
-('137b9dab-45cd-4bd1-8ee1-f25086fe31c7','simonvillalon10@gmail.com','$2a$10$q7sFr0MkQQwdRpqZ1ly9LO2CLCDOmLr3quyLKZ5Ep.NT6JaeZVPZW','2023-11-05 20:38:06','2023-11-05 20:38:06','Simonvi'),
-('c9a37459-de98-402f-ae33-bb659d440a3d','simonvillalon8@gmail.com','$2a$10$E/YMiK.bOGDA5CIDaMOT/ek1KvhJRaxafs/nGOVM2ZrOpOhWIKiQS','2023-11-13 00:06:39','2023-11-13 00:06:39','Simon vill');
+('5752ae60-f688-4c5a-a004-6c70083270fc','Simon','simonvillalon10@gmail.com','$2a$10$.O3hZUM0ysysK927bLnGSOvoOF1kdel6btWX5ndMKJuzgLDNBupIm','2023-12-10 01:02:14','2023-12-10 01:02:14'),
+('85c3c0df-9331-45d0-b138-84b5064f66d8','Simon','simonvillalon9@gmail.com','$2a$10$iyMumPSxV6EF7ic0lVFpAOI6DSXCxWdji/vPQqjSrBOnYciGo37mW','2023-12-10 19:32:30','2023-12-10 19:32:30'),
+('9146a423-e165-4f4c-ace9-0222f7010e22','SImondasd','simonvillalon8@gmail.com','$2a$10$FsDahK/1/eB5OH47W8kuq.99zJlPyRCXc7d0min5a.Uv0tOxxZNFC','2023-12-10 02:22:54','2023-12-10 02:22:54'),
+('fe1f963c-c489-4e13-a9ba-b7f5e103162c','simonvasd','simonvillalon@gmail.com','$2a$10$ssXFBJjPlOZh2qSVTEIqxeVUyWSetGb8QRC6Q/UB8dL3pc83X63FK','2023-12-10 19:16:07','2023-12-10 19:16:07');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -185,15 +162,15 @@ DROP TABLE IF EXISTS `user-device`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user-device` (
+  `user_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `device_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `admin` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
-  `device_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `user_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  PRIMARY KEY (`device_id`,`user_id`),
+  UNIQUE KEY `user-device_userId_deviceId_unique` (`device_id`,`user_id`),
   KEY `user_id` (`user_id`),
-  CONSTRAINT `user-device_ibfk_1` FOREIGN KEY (`device_id`) REFERENCES `device` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `user-device_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `user-device_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `user-device_ibfk_2` FOREIGN KEY (`device_id`) REFERENCES `device` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -204,7 +181,10 @@ CREATE TABLE `user-device` (
 LOCK TABLES `user-device` WRITE;
 /*!40000 ALTER TABLE `user-device` DISABLE KEYS */;
 INSERT INTO `user-device` VALUES
-(1,'2023-11-08 22:39:53','2023-11-08 22:39:53','5c2f870f-eba5-4ea7-a439-0b5c624ca684','137b9dab-45cd-4bd1-8ee1-f25086fe31c7');
+('5752ae60-f688-4c5a-a004-6c70083270fc','0d59f619-add2-463e-b3f1-d1bf41b2c2ba',1,'2023-12-10 01:05:21','2023-12-10 01:05:21'),
+('9146a423-e165-4f4c-ace9-0222f7010e22','0d59f619-add2-463e-b3f1-d1bf41b2c2ba',0,'2023-12-10 02:23:06','2023-12-10 19:14:18'),
+('fe1f963c-c489-4e13-a9ba-b7f5e103162c','0d59f619-add2-463e-b3f1-d1bf41b2c2ba',0,'2023-12-10 19:16:15','2023-12-10 19:16:15'),
+('85c3c0df-9331-45d0-b138-84b5064f66d8','0d59f619-add2-463e-b3f1-d1bf41b2c2ba',0,'2023-12-10 19:32:51','2023-12-10 19:32:51');
 /*!40000 ALTER TABLE `user-device` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -217,4 +197,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-11-13  1:19:49
+-- Dump completed on 2023-12-14 11:02:33

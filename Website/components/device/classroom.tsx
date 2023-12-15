@@ -1,8 +1,10 @@
 "use client"
 
 import * as React from "react"
+import useSettingsStore from "@/stores/settings-store"
 import { Activity, PowerOff, Radio, Settings, Volume1 } from "lucide-react"
 
+import { getClassroomColor } from "@/lib/classroom"
 import useDeviceGraph from "@/hooks/use-device-graph"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -10,6 +12,7 @@ import DeviceGraph from "@/components/device/device-graph"
 
 import { GraphFilter } from "./graph-filter"
 import RangeMenu from "./range-menu"
+import SensorsContainer from "./sensors-container"
 
 function Classroom({
   id,
@@ -23,7 +26,8 @@ function Classroom({
   sensor5,
   sensor6,
 }: ClassroomWithData) {
-  const sensors: (number | undefined)[] = [
+  const { settings } = useSettingsStore()
+  const sensors: (Sensor | undefined)[] = [
     sensor1,
     sensor2,
     sensor3,
@@ -31,7 +35,9 @@ function Classroom({
     sensor5,
     sensor6,
   ]
-  const filteredSensors = sensors.filter((value) => value !== null) as number[]
+  const filteredSensors = sensors
+    .filter((sensor) => sensor?.value !== null)
+    .map((sensor) => sensor?.value) as number[]
   const average =
     filteredSensors.reduce((a, b) => a + b, 0) / filteredSensors.length
   const {
@@ -42,6 +48,8 @@ function Classroom({
     categories,
     setCategories,
   } = useDeviceGraph(id)
+
+  const color = average ? getClassroomColor(average, settings) : ""
 
   if (loading) return <p>...loading</p>
   return (
@@ -69,7 +77,7 @@ function Classroom({
               <Volume1 />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-semibold">
+              <div className="text-2xl font-semibold" style={{ color }}>
                 {average ? Math.round(average) + "dB" : "-"}
               </div>
             </CardContent>
@@ -105,7 +113,7 @@ function Classroom({
           </Card>
         </div>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-          <Card className="col-span-2 flex flex-col">
+          <Card className="col-span-2 p-0 flex flex-col w-full h-full">
             {active ? (
               <>
                 <CardHeader>
@@ -113,10 +121,8 @@ function Classroom({
                     Dispositivo
                   </h1>
                 </CardHeader>
-                <CardContent className="w-full h-full justify-center text-center items-center grid grid-cols-2 grid-rows-3 ">
-                  {sensors.map((s, i) => (
-                    <p key={i}>{s}</p>
-                  ))}
+                <CardContent className="p-0 justify-center text-center items-center flex h-full">
+                  <SensorsContainer sensors={sensors} />
                 </CardContent>
               </>
             ) : (
@@ -126,7 +132,7 @@ function Classroom({
                     Dispositivo desconectado
                   </h1>
                 </CardHeader>
-                <CardContent className="w-full h-full justify-center text-center items-center flex">
+                <CardContent className="p-0 justify-center text-center items-center flex h-full">
                   <PowerOff size={72} />
                 </CardContent>
               </>

@@ -6,6 +6,7 @@ import { Card, CardContent, CardTitle } from "@/components/ui/card"
 import { HoverCard, HoverCardTrigger } from "../ui/hover-card"
 import CardHover from "./card-hover"
 import OptionsMenu from "./options-menu"
+import { getClassroomColor } from "@/lib/classroom"
 
 const ClassroomCard = ({
   id,
@@ -18,7 +19,14 @@ const ClassroomCard = ({
   sensor5,
   sensor6,
 }: ClassroomWithData) => {
-  const sensors = [sensor1, sensor2, sensor3, sensor4, sensor5, sensor6] // or undefined
+  const sensors = [
+    sensor1?.value,
+    sensor2?.value,
+    sensor3?.value,
+    sensor4?.value,
+    sensor5?.value,
+    sensor6?.value,
+  ] // or undefined
 
   const cleanSensors = sensors.filter(
     (sensor) => sensor !== undefined
@@ -28,13 +36,13 @@ const ClassroomCard = ({
   return (
     <HoverCard>
       <HoverCardTrigger asChild>
-        <Card className="py-6 w-full h-80 relative flex flex-col justify-between items-center">
+        <Card className={`py-6 w-full h-80 relative flex flex-col justify-between items-center color-[${getClassroomColor(noisiest, settings)}]`}>
           {admin ? <OptionsMenu.admin id={id} /> : <OptionsMenu id={id} />}
           <CardContent className="grid grid-rows-3 justify-center items-center h-full">
             {noisiest >= settings["max-warning"] ? (
               <Frown size={48} className="row-start-2" />
             ) : noisiest <= settings["max-warning"] &&
-              noisiest >= settings["max-acepted"] ? (
+              noisiest >= settings["max-accepted"] ? (
               <Annoyed size={48} className="row-start-2" />
             ) : noisiest >= 1 ? (
               <Smile size={48} className="row-start-2" />
@@ -47,12 +55,12 @@ const ClassroomCard = ({
         </Card>
       </HoverCardTrigger>
       <CardHover
-        sensor1={sensor1}
-        sensor2={sensor2}
-        sensor3={sensor3}
-        sensor4={sensor4}
-        sensor5={sensor5}
-        sensor6={sensor6}
+        sensor1={sensor1?.value}
+        sensor2={sensor2?.value}
+        sensor3={sensor3?.value}
+        sensor4={sensor4?.value}
+        sensor5={sensor5?.value}
+        sensor6={sensor6?.value}
       />
     </HoverCard>
   )

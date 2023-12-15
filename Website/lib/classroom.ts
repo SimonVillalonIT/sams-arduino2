@@ -83,3 +83,57 @@ export const processData = (
 
   return Object.values(groupedData)
 }
+
+export const getClassroomColor = (
+  value: number,
+  settings: { "max-accepted": number; "max-warning": number }
+) => {
+  let r, g, b
+
+  if (value <= settings["max-accepted"]) {
+    // Calculate transition from green to yellow
+    const rGreen = 22
+    const gGreen = 163
+    const bGreen = 74
+
+    const rYellow = 233
+    const gYellow = 213
+    const bYellow = 2
+
+    const percentGreen = value / settings["max-accepted"]
+    const percentYellow = 1 - percentGreen
+
+    r = Math.round(rGreen * percentYellow + rYellow * percentGreen)
+    g = Math.round(gGreen * percentYellow + gYellow * percentGreen)
+    b = Math.round(bGreen * percentYellow + bYellow * percentGreen)
+  } else if (value <= settings["max-warning"]) {
+    // Calculate transition from yellow to red
+    const rYellow = 233
+    const gYellow = 213
+    const bYellow = 2
+
+    const rRed = 255
+    const gRed = 0
+    const bRed = 0
+
+    const percentYellow =
+      1 -
+      (value - settings["max-accepted"]) /
+        (settings["max-warning"] - settings["max-accepted"])
+    const percentRed = 1 - percentYellow
+
+    r = Math.round(rYellow * percentYellow + rRed * percentRed)
+    g = Math.round(gYellow * percentYellow + gRed * percentRed)
+    b = Math.round(bYellow * percentYellow + bRed * percentRed)
+  } else {
+    // Value exceeds max-warning, return pure red
+    r = 255
+    g = 0
+    b = 0
+  }
+
+  // Format resulting color to hexadecimal
+  const color = `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, "0")}`
+
+  return color.toUpperCase() // Convert color to uppercase
+}

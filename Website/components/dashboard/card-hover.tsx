@@ -1,6 +1,8 @@
 import React from "react"
 import useSettingsStore from "@/stores/settings-store"
 
+import { getClassroomColor } from "@/lib/classroom"
+import { cn } from "@/lib/utils"
 import { HoverCardContent } from "@/components/ui/hover-card"
 
 const CardHover = ({
@@ -14,12 +16,6 @@ const CardHover = ({
   const { settings } = useSettingsStore()
   const sensors = [sensor1, sensor2, sensor3, sensor4, sensor5, sensor6]
 
-  const condition = (v: number) => {
-    if (v >= settings["max-warning"]) return "text-destructive"
-    if (v <= settings["max-warning"] && v >= settings["max-acepted"])
-      return "text-yellow-300"
-    if (v <= 19) return "text-primary"
-  }
   return (
     <HoverCardContent>
       {Math.max(...sensors) <= 0 ? (
@@ -28,11 +24,14 @@ const CardHover = ({
         </p>
       ) : (
         <ul className="grid grid-cols-2">
-          {sensors.map((s, key) => (
-            <li className="font-bold text-sm">
-              S{key + 1}: <span className={condition(s)}>{s} dB</span>
-            </li>
-          ))}
+          {sensors.map((s, key) => {
+            const color = getClassroomColor(s, settings)
+            return (
+              <li key={key} className="font-bold text-sm">
+                S{key + 1}: <span style={{ color }}>{s} dB</span>
+              </li>
+            )
+          })}
         </ul>
       )}
     </HoverCardContent>

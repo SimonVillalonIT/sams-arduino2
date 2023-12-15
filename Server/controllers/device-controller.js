@@ -5,14 +5,18 @@ import Historic from "../models/historic-model.js";
 import UserDeviceModel from "../models/user-device-model.js";
 import UserModel from "../models/user-model.js";
 import { sendUpdate } from "../sockets/device-socket.js";
-import { validBody } from "../utils/device-utils.js";
+import { validBody, sensorWithPosition } from "../utils/device-utils.js";
+import SensorModel from "../models/sensor-model.js";
 
 class DeviceController {
   constructor() {}
 
-  async assign(req, res) {
+  async assign(_, res) {
     try {
       const { id } = await DeviceModel.create();
+      for(let i = 1; i <= 6; i++){
+        await SensorModel.create({index: i, position: i, deviceId: id})
+      }
       res.json({ id });
     } catch (error) {
       res.status(500);
@@ -35,10 +39,10 @@ class DeviceController {
       const used = await UserDeviceModel.findOne({
         where: { device_id: deviceId, admin: true },
       });
-      if (used)
+      if (used){
         return res
           .status(400)
-          .json({ error: "El dispositivo ya a sido vinculado", data: null });
+          .json({ error: "El dispositivo ya a sido vinculado", data: null })}
       const result = await DeviceModel.update(
         { name },
         { where: { id: deviceId } },
@@ -98,7 +102,7 @@ class DeviceController {
           through: { attributes: ["admin"] },
         },
       });
-      if (data.dataValues.users.length > 0)
+      if (data && data.dataValues.users.length > 0)
         return res
           .status(200)
           .json({ data: data.dataValues.users, error: null });
@@ -107,7 +111,7 @@ class DeviceController {
         error: "El dispositivo no tiene usuarios asociados",
       });
     } catch (error) {
-      console.log(error);
+      console.log({error});
       return res.status(500).json({ data: null, error });
     }
   }
@@ -136,7 +140,11 @@ class DeviceController {
             exclude: ["id"],
           },
         });
-        sendUpdate(deviceUsers, req.body);
+        const sensorsPosition = await SensorModel.findAll({where: {device_id: req.body.id}})
+        const sensorsWithPosition = sensorWithPosition(sensorsPosition, req.body)
+
+        sendUpdate(deviceUsers, sensorsWithPosition);
+
         if (!deviceHeartbeats.has(req.body.id)) {
           await DeviceModel.update(
             { active: true },

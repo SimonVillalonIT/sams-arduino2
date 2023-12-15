@@ -15,7 +15,7 @@ const Settings = db.define("settings", {
     allowNull: false,
     defaultValue: 30,
   },
-  max_acepted: {
+  max_accepted: {
     type: DataTypes.INTEGER,
     allowNull: false,
     defaultValue: 20,

@@ -2,7 +2,7 @@ import * as z from "zod"
 
 export const settingsSchema = z
   .object({
-    "max-acepted": z
+    "max-accepted": z
       .number({
         required_error: "¡No puede estar vacio!",
         invalid_type_error: "¡Debes ingresar un numero!",
@@ -21,7 +21,7 @@ export const settingsSchema = z
       })
       .max(70, "¡El valor máximo es 70!"),
   })
-  .refine((data) => data["max-acepted"] <= data["max-warning"], {
+  .refine((data) => data["max-accepted"] <= data["max-warning"], {
     message: "El máximo aceptable no puede superar al maximo de advertencia",
-    path: ["max-acepted"],
+    path: ["max-accepted"],
   })

@@ -9,7 +9,7 @@ class SettingsController {
 
   async setUserSettings(req, res) {
     const userId = req.uid;
-    if (req.body["max-warning"] && req.body["max-acepted"]) {
+    if (req.body["max-warning"] && req.body["max-accepted"]) {
       try {
         const existingSetting = await SettingsModel.findOne({
           where: {
@@ -19,7 +19,7 @@ class SettingsController {
         if (existingSetting) {
           const update = await SettingsModel.update(
             {
-              max_acepted: req.body["max-acepted"],
+              max_accepted: req.body["max-accepted"],
               max_warning: req.body["max-warning"],
             },
             {

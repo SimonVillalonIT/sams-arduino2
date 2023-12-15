@@ -1,5 +1,6 @@
 import { generateToken, validateToken } from "../utils/token-manager.js";
 import UserModel from "../models/user-model.js";
+import SettingsModel from "../models/settings-model.js";
 
 class UserController {
   constructor() {}
@@ -7,9 +8,10 @@ class UserController {
   async register(req, res) {
     const { name, email, password } = req.body;
     try {
-      const user = await UserModel.create({ name, email, password });
+      const {id} = await UserModel.create({ name, email, password });
       // Generate the JWT token
-      generateToken(user.id, res);
+      SettingsModel.create({userId: id})
+      generateToken(id, res);
     } catch (error) {
       console.log(error);
       // Handle errors

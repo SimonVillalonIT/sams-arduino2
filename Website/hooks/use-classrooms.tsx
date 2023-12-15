@@ -36,7 +36,6 @@ export default function useClassroom() {
         return { id, name, active, admin, createdAt, updatedAt }
       })
       setClassrooms(data.data)
-      console.log(data.data)
       setIsLoading(false)
     } catch (error: any) {
       setError("No se encontraron dispositivos")
@@ -59,16 +58,15 @@ export default function useClassroom() {
       "deviceUpdate",
       (data: {
         id: string
-        sensor1: number
-        sensor2: number
-        sensor3: number
-        sensor4: number
-        sensor5: number
-        sensor6: number
+        sensor1: Sensor
+        sensor2: Sensor
+        sensor3: Sensor
+        sensor4: Sensor
+        sensor5: Sensor
+        sensor6: Sensor
       }) => {
         setClassrooms((prevState) => {
           const newState = [...prevState] // Create a new array reference
-
           const index = newState.findIndex((item) => item.id === data.id)
 
           if (index !== -1) {
@@ -83,7 +81,6 @@ export default function useClassroom() {
               sensor5: data.sensor5,
               sensor6: data.sensor6,
             }
-            console.log("Updated State:", newState)
           } else {
             console.warn("Item not found in state with ID:", data.id)
           }
@@ -109,7 +106,6 @@ export default function useClassroom() {
             updatedAt: newState[index].updatedAt,
             admin: newState[index].admin,
           }
-          console.log("Updated State:", newState)
         } else {
           console.warn("Item not found in state with ID:", id)
           setError("Error en la actualizacion de dispositivos")
