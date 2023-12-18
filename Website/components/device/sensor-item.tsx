@@ -9,13 +9,13 @@ export interface SensorProps {
   value: number
   index: number
   position: number
-  moveCard: (dragIndex: number, hoverIndex: number) => void
+  moveCard: (drag: DragItem, hover: DragItem) => void
 }
 
-interface DragItem {
+export interface DragItem {
   index: number
   id: string
-  type: string
+  type?: string
   position: number
 }
 
@@ -31,10 +31,10 @@ const Sensor = ({ id, value, index, position, moveCard }: SensorProps) => {
     hover(item: DragItem, monitor: DropTargetMonitor) {
       if (!ref.current) return
 
-      const dragIndex = item.index
-      const hoverIndex = index
+      const drag = item
+      const hover = { id, value, index, position }
 
-      if (dragIndex === hoverIndex) return
+      if (drag.position === hover.position) return
 
       const hoverBoundingRect = ref.current.getBoundingClientRect()
       const hoverMiddleY =
@@ -42,17 +42,17 @@ const Sensor = ({ id, value, index, position, moveCard }: SensorProps) => {
       const clientOffset = monitor.getClientOffset()
       const hoverClientY = (clientOffset as any).y - hoverBoundingRect.top
 
-      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) return
-      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) return
+      if (drag.position < drag.position && hoverClientY < hoverMiddleY) return
+      if (drag.position > hover.position && hoverClientY > hoverMiddleY) return
 
-      moveCard(dragIndex, hoverIndex)
-      item.index = hoverIndex
+      moveCard(drag, hover)
+      item.position = hover.position
     },
   })
 
   const [{ isDragging }, drag] = useDrag({
     type: "card",
-    item: () => ({ id, index }),
+    item: () => ({ id, position }),
     collect: (monitor: any) => ({
       isDragging: monitor.isDragging(),
     }),

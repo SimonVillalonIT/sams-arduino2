@@ -122,7 +122,7 @@ function Classroom({
                   </h1>
                 </CardHeader>
                 <CardContent className="p-0 justify-center text-center items-center flex h-full">
-                  <SensorsContainer sensors={sensors} />
+                  <SensorsContainer deviceId={id} sensors={sensors} />
                 </CardContent>
               </>
             ) : (

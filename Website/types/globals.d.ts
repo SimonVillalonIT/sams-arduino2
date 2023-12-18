@@ -9,7 +9,8 @@ type User = {
 
 type Sensor = {
     value: number,
-    position: number
+    position: number,
+    index: number
 }
 
 type Classroom = {

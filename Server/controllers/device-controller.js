@@ -14,8 +14,8 @@ class DeviceController {
   async assign(_, res) {
     try {
       const { id } = await DeviceModel.create();
-      for(let i = 1; i <= 6; i++){
-        await SensorModel.create({index: i, position: i, deviceId: id})
+      for (let i = 1; i <= 6; i++) {
+        await SensorModel.create({ index: i, position: i, deviceId: id });
       }
       res.json({ id });
     } catch (error) {
@@ -39,13 +39,14 @@ class DeviceController {
       const used = await UserDeviceModel.findOne({
         where: { device_id: deviceId, admin: true },
       });
-      if (used){
+      if (used) {
         return res
           .status(400)
-          .json({ error: "El dispositivo ya a sido vinculado", data: null })}
+          .json({ error: "El dispositivo ya a sido vinculado", data: null });
+      }
       const result = await DeviceModel.update(
         { name },
-        { where: { id: deviceId } },
+        { where: { id: deviceId } }
       );
       if (result[0] === 1) {
         await UserDeviceModel.create({
@@ -111,7 +112,7 @@ class DeviceController {
         error: "El dispositivo no tiene usuarios asociados",
       });
     } catch (error) {
-      console.log({error});
+      console.log({ error });
       return res.status(500).json({ data: null, error });
     }
   }
@@ -140,8 +141,13 @@ class DeviceController {
             exclude: ["id"],
           },
         });
-        const sensorsPosition = await SensorModel.findAll({where: {device_id: req.body.id}})
-        const sensorsWithPosition = sensorWithPosition(sensorsPosition, req.body)
+        const sensorsPosition = await SensorModel.findAll({
+          where: { device_id: req.body.id },
+        });
+        const sensorsWithPosition = sensorWithPosition(
+          sensorsPosition,
+          req.body
+        );
 
         sendUpdate(deviceUsers, sensorsWithPosition);
 
@@ -150,7 +156,7 @@ class DeviceController {
             { active: true },
             {
               where: { id: req.body.id },
-            },
+            }
           );
         }
         await Historic.create({
@@ -169,6 +175,17 @@ class DeviceController {
       }
     }
     return res.status(400).json({ error: "Formato de peticion invalido" });
+  }
+
+  async updateSensorPosition(req, res) {
+    console.log(req.body);
+    res.status(200).send("ok");
+    req.body.data.forEach(async ({ position, index }) => {
+      await SensorModel.update(
+        { position },
+        { where: { index, deviceId: req.body.deviceId } }
+      );
+    });
   }
 }
 

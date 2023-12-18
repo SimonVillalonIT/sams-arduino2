@@ -6,28 +6,14 @@ import SensorsCard from "./sensors-card"
 
 interface SensorsContainerInterface {
   sensors: (Sensor | undefined)[]
+  deviceId: string
 }
 
-function SensorsContainer({ sensors }: SensorsContainerInterface) {
-  const sensorsWithID = sensors.map((s, i) => ({ ...s, id: i }))
-  const sortFunction = (
-    a: (Sensor & { id: number }) | undefined,
-    b: (Sensor & { id: number }) | undefined
-  ) => {
-    if (!a || !b) return 0
-    if (a.position < b.position) {
-      return -1
-    }
-    if (a.position > b.position) {
-      return 1
-    }
-
-    return 0
-  }
-  sensorsWithID.sort(sortFunction)
+function SensorsContainer({ sensors, deviceId }: SensorsContainerInterface) {
+  sensors.sort((a, b) => (a?.position as number) - (b?.position as number))
   return (
     <DndProvider backend={HTML5Backend}>
-      <SensorsCard data={sensors} />
+      <SensorsCard deviceId={deviceId} data={sensors} />
     </DndProvider>
   )
 }
