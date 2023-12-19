@@ -13,6 +13,7 @@ import DeviceGraph from "@/components/device/device-graph"
 import { GraphFilter } from "./graph-filter"
 import RangeMenu from "./range-menu"
 import SensorsContainer from "./sensors-container"
+import UsersTable from "./users-table"
 
 function Classroom({
   id,
@@ -56,7 +57,9 @@ function Classroom({
     <Tabs defaultValue="stadistics">
       <TabsList>
         <TabsTrigger value="stadistics">Estadísticas</TabsTrigger>
-        <TabsTrigger value="users">Personas con acceso</TabsTrigger>
+        <TabsTrigger disabled={!admin} value="users">
+          Personas con acceso
+        </TabsTrigger>
       </TabsList>
       <TabsContent value="stadistics" className="space-y-4">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -141,10 +144,9 @@ function Classroom({
           <DeviceGraph categories={categories} formattedData={formattedData} />
         </div>
       </TabsContent>
-      <TabsContent value="users" className="space-y-4">
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4"></div>
+      <TabsContent value="users">
+        <UsersTable deviceId={id} />
       </TabsContent>
-      <TabsContent value="users"></TabsContent>
     </Tabs>
   )
 }

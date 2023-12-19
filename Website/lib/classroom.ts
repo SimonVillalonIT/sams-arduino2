@@ -137,3 +137,13 @@ export const getClassroomColor = (
 
   return color.toUpperCase() // Convert color to uppercase
 }
+
+export const deleteUserClassroom = async (deviceId: string, userId: string) => {
+  api.delete("/device/deleteUser", {
+    params: {
+      deviceId,
+      userId,
+    },
+  })
+  return
+}

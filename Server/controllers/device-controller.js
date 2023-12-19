@@ -7,6 +7,7 @@ import UserModel from "../models/user-model.js";
 import { sendUpdate } from "../sockets/device-socket.js";
 import { validBody, sensorWithPosition } from "../utils/device-utils.js";
 import SensorModel from "../models/sensor-model.js";
+import UserDevice from "../models/user-device-model.js";
 
 class DeviceController {
   constructor() {}
@@ -187,6 +188,22 @@ class DeviceController {
       );
     });
   }
-}
 
+
+async deleteUserClassroom(req, res){
+    const {deviceId, userId} = req.query
+try {
+    await UserDevice.destroy({
+        where: {
+            "device_id": deviceId,
+            "user_id": userId
+        }
+    })
+    res.status(200).json({ok: true})
+} catch (error) {
+    console.log(error)
+    res.status(500).json({error})
+}
+    }
+}
 export default new DeviceController();

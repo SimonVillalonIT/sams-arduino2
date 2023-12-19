@@ -13,4 +13,5 @@ router.get("/:id", DeviceController.getDevice);
 router.get("/deviceUsers/:id", DeviceController.getDeviceUsers);
 router.post("/link", DeviceController.link);
 router.post("/changeSensor", DeviceController.updateSensorPosition);
+router.delete("/deleteUser", DeviceController.deleteUserClassroom)
 export default router;

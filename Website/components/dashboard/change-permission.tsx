@@ -11,15 +11,18 @@ import {
   SelectValue,
 } from "../ui/select"
 import { useToast } from "../ui/use-toast"
+import { cn } from "@/lib/utils"
 
 function ChangePermission({
   admin,
   userId,
   deviceId,
+  className
 }: {
   admin: boolean
   userId: string
   deviceId: string
+  className?: string
 }) {
   const { toast } = useToast()
   const [loading, setLoading] = React.useState(false)
@@ -49,7 +52,7 @@ function ChangePermission({
   }
   return (
     <Select value={permission} disabled={loading} onValueChange={handleChange}>
-      <SelectTrigger className="ml-auto w-[110px]">
+      <SelectTrigger className={cn("ml-auto w-[110px]", className)}>
         <SelectValue placeholder="Select" />
       </SelectTrigger>
       <SelectContent>
