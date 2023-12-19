@@ -19,7 +19,7 @@ HTTPClient httpClient;
 AsyncWebServer server(80);
 DynamicJsonDocument device(1024);
 
-const int pinSensorSonido = 27;
+const int pinSensorSonido = 32;
 
 void fsInit() {
   /* Inicializar LittleFS normalmente. Si falla,
@@ -126,9 +126,9 @@ void assignBoardId() {
     return;
   }
 
-  if( WiFi.status() != WL_CONNECTED) {
+  if (WiFi.status() != WL_CONNECTED) {
     return;
-    }
+  }
   HTTPClient http;
   String url = API_URL + "/assign";
   http.begin(url);
@@ -480,62 +480,66 @@ void setup() {
 
   server.begin();
 }
+unsigned long previousSensorTime = 0;  // Variable para almacenar el tiempo anterior de lectura del sensor
+unsigned long sensorInterval = 2000;   // Intervalo de lectura del sensor en milisegundos (2 segundos)
 
 void loop() {
-  int valorSensor1 = analogRead(pinSensorSonido); // Leer el valor analógico del sensor
 
-  // Mapear el valor del sensor a un rango entre 0 y 60 (máximo)
-  int nivelSonido1 = map(valorSensor1, 0, 1023, 0, 60);
+  unsigned long currentMillis = millis();  // Obtener el tiempo actual
 
-  Serial.println(nivelSonido1);
-  // Esperar hasta que tenga conexión WiFi
-  if (WiFi.status() != WL_CONNECTED) {
-    delay(100);
-    return;
+  // Verificar si es tiempo de leer el sensor según el intervalo establecido
+  if (currentMillis - previousSensorTime >= sensorInterval) {
+    previousSensorTime = currentMillis;  // Actualizar el tiempo anterior de lectura del sensor
+
+    int valorSensor1 = analogRead(pinSensorSonido);  // Leer el valor analógico del sensor
+
+    // Esperar hasta que tenga conexión WiFi
+    if (WiFi.status() != WL_CONNECTED) {
+      delay(100);
+      return;
+    }
+
+    // Si no tengo la id del dispositivo, la obtengo
+    if (deviceId.isEmpty()) {
+      assignBoardId();
+      return;
+    }
+
+    // Example array of sensor data
+    int sensorData[] = { valorSensor1, random(500), random(500), random(500), random(500), random(500) };
+    // Initialize the HTTP client
+    HTTPClient client;
+
+    Serial.println(sensorData[0]);
+    // Iterate over the array and send each element to the backend
+    String jsonPayload = "{\"id\":\"" + deviceId + "\",";
+    jsonPayload += "\"sensor1\":" + String(sensorData[0]) + ",";
+    jsonPayload += "\"sensor2\":" + String(sensorData[1]) + ",";
+    jsonPayload += "\"sensor3\":" + String(sensorData[2]) + ",";
+    jsonPayload += "\"sensor4\":" + String(sensorData[3]) + ",";
+    jsonPayload += "\"sensor5\":" + String(sensorData[4]) + ",";
+    jsonPayload += "\"sensor6\":" + String(sensorData[5]);
+    jsonPayload += "}";
+
+    // Begin the HTTP request
+    client.begin(API_URL + "/");
+    client.addHeader("Content-Type", "application/json");
+
+    // Send the POST request
+    int httpResponseCode = client.PUT(jsonPayload);
+
+    // Check the response code
+    if (httpResponseCode > 0) {
+      Serial.print("Request ");
+      Serial.print(" - Response code: ");
+      Serial.println(httpResponseCode);
+    } else {
+      Serial.print("Request ");
+      Serial.print(" - Response code: ");
+      Serial.println(httpResponseCode);
+    }
+
+    // End the HTTP request
+    client.end();
   }
-
-  // Si no tengo la id del dispositivo, la obtengo
-  if (deviceId.isEmpty()) {
-    assignBoardId();
-    return;
-  }
-
-  // Example array of sensor data
-  int sensorData[] = { nivelSonido1, random(500), random(500), random(500), random(500), random(500) };
-  Serial.println(random(500));
-  // Initialize the HTTP client
-  HTTPClient client;
-
-  // Iterate over the array and send each element to the backend
-  String jsonPayload = "{\"id\":\"" + deviceId + "\",";
-  jsonPayload += "\"sensor1\":" + String(sensorData[0]) + ",";
-  jsonPayload += "\"sensor2\":" + String(sensorData[1]) + ",";
-  jsonPayload += "\"sensor3\":" + String(sensorData[2]) + ",";
-  jsonPayload += "\"sensor4\":" + String(sensorData[3]) + ",";
-  jsonPayload += "\"sensor5\":" + String(sensorData[4]) + ",";
-  jsonPayload += "\"sensor6\":" + String(sensorData[5]);
-  jsonPayload += "}";
-
-  // Begin the HTTP request
-   client.begin(API_URL + "/");
-  client.addHeader("Content-Type", "application/json");
-
-  // Send the POST request
-  int httpResponseCode = client.PUT(jsonPayload);
-
-  // Check the response code
-  if (httpResponseCode > 0) {
-    Serial.print("Request ");
-    Serial.print(" - Response code: ");
-    Serial.println(httpResponseCode);
-  } else {
-    Serial.print("Request ");
-    Serial.print(" - Response code: ");
-    Serial.println(httpResponseCode);
-  }
-
-  // End the HTTP request
-  client.end();
-
-  delay(2000);
 }

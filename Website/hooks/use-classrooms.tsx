@@ -65,6 +65,7 @@ export default function useClassroom() {
         sensor5: Sensor
         sensor6: Sensor
       }) => {
+        console.log(data)
         setClassrooms((prevState) => {
           const newState = [...prevState] // Create a new array reference
           const index = newState.findIndex((item) => item.id === data.id)

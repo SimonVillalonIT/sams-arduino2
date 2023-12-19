@@ -20,7 +20,7 @@ class DeviceController {
       }
       res.json({ id });
     } catch (error) {
-      res.status(500);
+      res.status(500).json({ error });
     }
   }
 
@@ -55,6 +55,10 @@ class DeviceController {
           device_id: deviceId,
           admin: true,
         });
+
+        for (let i = 1; i <= 6; i++) {
+          await SensorModel.create({ index: i, position: i, deviceId });
+        }
         res.status(204).json({ ok: true });
       } else {
         throw new Error("Device not found");
@@ -145,12 +149,13 @@ class DeviceController {
         const sensorsPosition = await SensorModel.findAll({
           where: { device_id: req.body.id },
         });
-        const sensorsWithPosition = sensorWithPosition(
+
+        const dataSensorsWithPosition = sensorWithPosition(
           sensorsPosition,
           req.body
         );
 
-        sendUpdate(deviceUsers, sensorsWithPosition);
+        sendUpdate(deviceUsers, dataSensorsWithPosition);
 
         if (!deviceHeartbeats.has(req.body.id)) {
           await DeviceModel.update(
@@ -189,21 +194,20 @@ class DeviceController {
     });
   }
 
-
-async deleteUserClassroom(req, res){
-    const {deviceId, userId} = req.query
-try {
-    await UserDevice.destroy({
+  async deleteUserClassroom(req, res) {
+    const { deviceId, userId } = req.query;
+    try {
+      await UserDevice.destroy({
         where: {
-            "device_id": deviceId,
-            "user_id": userId
-        }
-    })
-    res.status(200).json({ok: true})
-} catch (error) {
-    console.log(error)
-    res.status(500).json({error})
-}
+          device_id: deviceId,
+          user_id: userId,
+        },
+      });
+      res.status(200).json({ ok: true });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error });
     }
+  }
 }
 export default new DeviceController();
