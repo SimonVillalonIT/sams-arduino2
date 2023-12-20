@@ -42,17 +42,7 @@ export default function useDeviceGraph(deviceId: string) {
         return itemDate >= from && itemDate <= to
       })
 
-      const formatData: any[] = filteredData.map((d: any) => {
-        const formattedDate = new Intl.DateTimeFormat("es-AR", {
-          dateStyle: "medium",
-          timeStyle: "medium",
-        }).format(new Date(d.updated_at))
-        return {
-          Fecha: formattedDate,
-          ...d,
-        }
-      })
-      setFormattedData(formatData)
+      setFormattedData(filteredData)
       setLoading(false)
     } catch (error) {
       console.log(error)
@@ -64,6 +54,8 @@ export default function useDeviceGraph(deviceId: string) {
   }, [date])
 
   const handleIntervalChange = (interval: string) => {
+    const from = date?.from as Date
+    const to = date?.to as Date
     setLoading(true)
     if (data) {
       if (interval === "2000") {
@@ -71,7 +63,11 @@ export default function useDeviceGraph(deviceId: string) {
         setInterval(interval)
         setLoading(false)
       }
-      const result = processData(data, Number(interval))
+      const filteredData = data.filter((item: any) => {
+        const itemDate = new Date(item.updated_at)
+        return itemDate >= from && itemDate <= to
+      })
+      const result = processData(filteredData, Number(interval))
       if (result.length > 5) {
         setFormattedData(result)
         setInterval(interval)

@@ -12,7 +12,7 @@ interface Actions {
 
 function getFecha20DiasAntes(): Date {
   const fechaActual = new Date()
-  fechaActual.setDate(fechaActual.getDate() - 20)
+  fechaActual.setDate(fechaActual.getDate() - 1)
   return fechaActual
 }
 const fromDate = getFecha20DiasAntes()

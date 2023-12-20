@@ -54,7 +54,7 @@ export default function DeviceGraph({
       <AreaChart
         className="mt-4 text-foreground bg-transparent"
         data={formattedData}
-        index="Fecha"
+        index="updated_at"
         colors={clearColors}
         categories={clearCategories}
         yAxisWidth={30}
