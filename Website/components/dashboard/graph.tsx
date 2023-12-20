@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import useDateStore from "@/stores/date-store"
 import { AreaChart, Card, Title } from "@tremor/react"
 
 import api from "@/lib/axios"
@@ -9,11 +10,21 @@ export default function Graph() {
   const [data, setData] = useState<
     { Fecha: string; Decibeles: number }[] | null
   >(null)
+  const { date } = useDateStore()
+  const from = date?.from as Date
+  const to = date?.to as Date
   const dataCallback = async () => {
     try {
-      const { data } = await api.get("/data/graph")
+      const { data } = await api.get<{
+        data: { updated_at: string; soundLevel: number }[]
+      }>("/data/graph")
+
+      const filteredData = data.data.filter((item) => {
+        const itemDate = new Date(item.updated_at)
+        return itemDate >= from && itemDate <= to
+      })
       const formattedData: { Fecha: string; Decibeles: number }[] =
-        data.data.map(
+        filteredData.map(
           ({
             updated_at,
             soundLevel,
@@ -26,17 +37,21 @@ export default function Graph() {
               timeStyle: "medium",
             }).format(new Date(updated_at))
             return {
-              Fecha: formattedDate, // La fecha y hora del sensor
-              Decibeles: Math.round(soundLevel), // El nivel de sonido promedio para esa fecha y hora
+              Fecha: formattedDate,
+              Decibeles: Math.round(soundLevel),
             }
           }
         )
-      setData(formattedData)
-    } catch (error) {}
+
+      setData(formattedData) // Establece los datos filtrados en el estado
+    } catch (error) {
+      console.log(error)
+    }
   }
+
   useEffect(() => {
     dataCallback()
-  }, [])
+  }, [date])
 
   if (data) {
     return (

@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import DeviceGraph from "@/components/device/device-graph"
 
+import { DatePickerWithRange } from "../date-range-picker"
 import { GraphFilter } from "./graph-filter"
 import RangeMenu from "./range-menu"
 import SensorsContainer from "./sensors-container"
@@ -55,12 +56,15 @@ function Classroom({
   if (loading) return <p>...loading</p>
   return (
     <Tabs defaultValue="stadistics">
-      <TabsList>
-        <TabsTrigger value="stadistics">Estadísticas</TabsTrigger>
-        <TabsTrigger disabled={!admin} value="users">
-          Personas con acceso
-        </TabsTrigger>
-      </TabsList>
+      <div className="flex justify-between">
+        <TabsList>
+          <TabsTrigger value="stadistics">Estadísticas</TabsTrigger>
+          <TabsTrigger disabled={!admin} value="users">
+            Personas con acceso
+          </TabsTrigger>
+        </TabsList>
+        <DatePickerWithRange />
+      </div>
       <TabsContent value="stadistics" className="space-y-4">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <Card>

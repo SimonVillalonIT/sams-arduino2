@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import useDateStore from "@/stores/date-store"
 
 import api from "@/lib/axios"
 import { processData } from "@/lib/classroom"
@@ -18,6 +19,8 @@ export default function useDeviceGraph(deviceId: string) {
   const [formattedData, setFormattedData] = useState<any>(null)
   const [interval, setInterval] = useState("2000")
   const [loading, setLoading] = useState(true)
+  const { date } = useDateStore()
+
   const [categories, setCategories] = useState<Categories>({
     sensor1: true,
     sensor2: true,
@@ -28,17 +31,37 @@ export default function useDeviceGraph(deviceId: string) {
   })
   const { toast } = useToast()
   const dataCallback = async () => {
+    const from = date?.from as Date
+    const to = date?.to as Date
     try {
       const { data } = await api.get("/data/graph/" + deviceId)
       setData(data.data)
-      setFormattedData(data.data)
+
+      const filteredData = data.data.filter((item: any) => {
+        const itemDate = new Date(item.updated_at)
+        return itemDate >= from && itemDate <= to
+      })
+
+      const formatData: any[] = filteredData.map((d: any) => {
+        const formattedDate = new Intl.DateTimeFormat("es-AR", {
+          dateStyle: "medium",
+          timeStyle: "medium",
+        }).format(new Date(d.updated_at))
+        return {
+          Fecha: formattedDate,
+          ...d,
+        }
+      })
+      setFormattedData(formatData)
       setLoading(false)
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   useEffect(() => {
     dataCallback()
-  }, [])
+  }, [date])
 
   const handleIntervalChange = (interval: string) => {
     setLoading(true)

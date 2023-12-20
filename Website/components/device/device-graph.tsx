@@ -47,13 +47,14 @@ export default function DeviceGraph({
       clearColors.push(colors[i])
     }
   })
+
   return (
     <Card className="col-span-5 bg-transparent">
       <Title className="text-3xl font-bold">Aula mas ruidosa</Title>
       <AreaChart
         className="mt-4 text-foreground bg-transparent"
         data={formattedData}
-        index="updated_at"
+        index="Fecha"
         colors={clearColors}
         categories={clearCategories}
         yAxisWidth={30}
